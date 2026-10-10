@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html data-page-node-id="MlVT1e7sRrtGooDJe6OCdY" lang="zh-CN">
+<head data-page-node-id="92BIpCRfWFHlcaFIuddar5">
+<meta data-page-node-id="feCxbpc9cMMPwzdGb63ETG" charset="UTF-8">
+<meta data-page-node-id="tVkgqaElGPvjxQ3W1KK6cO" content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
+<title data-page-node-id="SvCKRGNPUyhk9IPes8X6Mx" data-pnid-children="OHjbaZXwtlKqePwFEigh3H">电子衣柜</title>
+<!--pnid:cutLmlhkZQHrS3iGd2BoUD--><!-- 本工作台通过 WorkBuddy 资料库能力（library skill）搭建、存储和部署 -->
+<style data-page-node-id="LXuQa9wLh1Wh9lOF2yokTZ" data-pnid-children="kHpONMRPoxB3RR87wOqGZa">
+:root{
+  --bg:#F6F4F0;            /* 暖纸底 */
+  --panel:#FCFBF8;
+  --card:#FFFFFF;
+  --line:#EAE5DB;
+  --line-soft:#F0ECE4;
+  --ink:#27231D;           /* 主文字 */
+  --ink-2:#8B857A;         /* 次级文字 */
+  --ink-3:#B4AEA2;         /* 弱文字 */
+  --accent:#A67C52;        /* 陶土棕 */
+  --accent-soft:#F1E9DD;
+  --accent-deep:#8A6540;
+  --ok:#6F9C7C;
+  --warn:#C26A4B;
+  --radius:14px;
+  --radius-s:10px;
+  --shadow:0 1px 2px rgba(39,35,29,.04), 0 4px 14px rgba(39,35,29,.05);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --tab-h:60px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink);outline:none}
+svg{display:block}
+
+/* ---------- 头部 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 12px;
+  background:rgba(246,244,240,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{
+  width:34px;height:34px;border-radius:10px;
+  background:var(--ink);color:#F6F4F0;
+  display:flex;align-items:center;justify-content:center;
+}
+.brand h1{font-size:17px;font-weight:650;letter-spacing:.5px}
+.brand .sub{font-size:11px;color:var(--ink-3);letter-spacing:2.2px;margin-top:1px}
+.sync{
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--ink-2);
+  background:var(--panel);border:1px solid var(--line);
+  padding:6px 11px;border-radius:999px;
+}
+.sync .dot{width:8px;height:8px;border-radius:50%;background:var(--ink-3);flex:none}
+.sync.ok .dot{background:var(--ok)}
+.sync.err .dot{background:var(--warn)}
+.sync.syncing .dot{
+  background:transparent;
+  border:2px solid var(--accent);
+  border-top-color:transparent;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- 主内容 ---------- */
+main{max-width:1200px;margin:0 auto;padding:20px 18px 110px}
+section.view{display:none;animation:fade .25s ease}
+section.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.pg-title{font-size:16px;font-weight:650;margin:6px 2px 14px;letter-spacing:.3px}
+
+/* 数据状态区 */
+.state-box{
+  border:1px dashed var(--line);border-radius:var(--radius);
+  padding:42px 20px;text-align:center;color:var(--ink-2);
+  background:var(--panel);
+}
+.state-box .ic{width:38px;height:38px;margin:0 auto 10px;color:var(--ink-3)}
+.state-box p{font-size:13.5px}
+.state-box .retry{
+  margin-top:14px;display:inline-flex;align-items:center;gap:6px;
+  background:var(--ink);color:#F6F4F0;font-size:13px;
+  padding:9px 18px;border-radius:999px;
+}
+.state-box .retry svg{width:14px;height:14px}
+
+/* 骨架 */
+.skel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.skel-grid .sk{aspect-ratio:3/4;border-radius:var(--radius);background:linear-gradient(100deg,#EFEBE3 40%,#F6F3EC 50%,#EFEBE3 60%);background-size:200% 100%;animation:sh 1.2s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* ---------- 总览 ---------- */
+.stats{display:grid;grid-template-columns:1fr 2fr;grid-template-rows:auto auto;gap:10px;margin-bottom:18px;align-items:stretch}
+.stat{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 14px 12px;
+}
+.stat b{display:block;font-size:24px;font-weight:650;letter-spacing:.3px}
+.stat span{font-size:12px;color:var(--ink-2)}
+.stat .num{display:flex;align-items:baseline;gap:2px}
+.stat .unit{font-size:12px;color:var(--ink-3);font-weight:400}
+/* 明日穿搭：左侧跨整高 */
+.stat-outfit{grid-row:1 / span 2;grid-column:1}
+/* 右侧指标区：身高体重/肩胸腰臀 并排，下方接百分比堆积图 */
+.stat-side{grid-column:2;display:flex;flex-direction:column;gap:10px;min-width:0}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){
+  .stats{grid-template-columns:1fr;grid-template-rows:auto}
+  .stat-outfit{grid-row:auto;grid-column:1}
+  .stat-side{grid-column:1}
+  .metric-row{grid-template-columns:1fr}
+}
+/* 可编辑身体数据板块 */
+.stat .body-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.stat .body-badge{
+  display:inline-flex;font-size:10px;font-weight:600;color:#8A6238;
+  background:#F2E8DA;border:1px solid #E4D8C6;border-radius:99px;
+  padding:2px 9px;letter-spacing:.3px;flex:none
+}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 10px}
+.metric{display:flex;flex-direction:column;gap:3px;text-align:center}
+.metric label{font-size:10.5px;color:var(--ink-3)}
+.metric .inp{display:flex;align-items:center;justify-content:center;gap:2px}
+.metric input{
+  width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;
+  padding:5px 3px;font-size:13px;font-weight:650;color:var(--ink);
+  background:var(--bg);text-align:center;-moz-appearance:textfield
+}
+.metric input::-webkit-outer-spin-button,.metric input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.metric input:focus{outline:none;border-color:var(--accent);background:#fff}
+.metric .u{font-size:9.5px;color:var(--ink-3);flex:none}
+
+/* ---------- 明日穿搭推荐面板 ---------- */
+#outfit-rec{}
+.rec-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.rec-title{font-size:13px;font-weight:600;color:var(--ink)}
+.rec-weather{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2);background:#F8F5F0;border-radius:99px;padding:3px 10px}
+.rec-weather .w-temp{font-weight:600;color:var(--ink)}
+.rec-body{display:flex;flex-direction:column;gap:10px}
+.rec-thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.rec-thumb{width:64px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rec-thumb-img{width:62px;height:62px;border-radius:10px;border:1px solid var(--line-soft);background:#FAF6F1;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.rec-thumb-img img{width:100%;height:100%;object-fit:cover;display:block}
+.rec-thumb-img .ph{width:26px;height:26px;color:#C9C2B4}
+.rec-thumb-label{font-size:10px;color:var(--ink-2);text-align:center;line-height:1.25;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rec-info{flex:1;min-width:0}
+.rec-items{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.rec-chip{font-size:11px;font-weight:500;color:#5A3D26;background:#F2E8DA;border:1px solid #E8DCC8;border-radius:99px;padding:3px 9px;white-space:nowrap}
+.rec-scheme{font-size:11.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rec-scheme b{color:var(--accent);font-weight:600}
+.rec-swatches{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.rec-sw{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);display:inline-block}
+.rec-scheme-tip{font-size:11px;color:var(--ink-3);line-height:1.5;margin-top:2px}
+.rec-style{color:#7A5230;background:#F3E9DA;border:1px solid #E6D6BF;border-radius:99px;padding:2px 10px;font-weight:600}
+.rec-style b{color:#7A5230}
+.rec-tip{font-size:11px;line-height:1.5;color:var(--ink-2);background:#FBF7F1;border:1px solid var(--line-soft);border-radius:10px;padding:8px 10px}
+.rec-dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:0;margin-right:4px;border:1px solid rgba(0,0,0,.12)}
+.rec-placeholder{font-size:11.5px;color:var(--ink-3);text-align:center;padding:16px 0}
+.rec-loading{font-size:11px;color:var(--ink-3)}
+/* 首页快捷操作网格（2×3）：添加上衣/下装/外套/连衣裙/鞋子 + 换一套 */
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.quick-btn{
+  font-size:12px;font-weight:600;padding:9px 4px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;
+  transition:border-color .15s,color .15s,background .15s
+}
+.quick-btn:hover,.quick-btn:active{border-color:var(--accent);color:var(--accent)}
+.quick-btn svg{width:16px;height:16px}
+
+/* 分布图 - 作为指标区下方从属展示部分，融入同一视觉区块 */
+.dist-list{margin-top:0;display:flex;flex-direction:column;gap:0}
+.dist-card{
+  background:#FAF7F2;border:1px solid var(--line-soft);border-radius:var(--radius);
+  padding:12px 14px;
+}
+.dist-head{
+  font-size:12px;font-weight:600;color:var(--ink-2);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.dist-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.dist-row:last-child{margin-bottom:0}
+.dist-row-label{
+  font-size:13px;font-weight:600;color:var(--ink);
+  white-space:nowrap;min-width:42px;flex-shrink:0;
+}
+.dist-row-count{
+  font-size:11.5px;color:var(--ink-3);font-weight:500;
+  white-space:nowrap;min-width:28px;flex-shrink:0;text-align:right;
+}
+.stacked-bar{flex:1;min-width:0}
+.stacked-bar .bar-track{
+  flex:1;height:30px;border-radius:99px;background:#F2E8DA;
+  overflow:hidden;display:flex;position:relative;
+}
+.stacked-bar .bar-seg{
+  height:100%;min-width:0;transition:width .5s ease;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  border-right:1.5px solid rgba(255,255,255,.45);
+}
+.stacked-bar .bar-seg:last-child{border-right:none}
+/* 段内标签 - 单一纯色文字（由 JS 依该段亮度计算），平整无阴影 */
+.stacked-bar .seg-label{
+  font-size:12px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:100%;padding:0 4px;line-height:1.15;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+}
+.stacked-bar .seg-label .seg-pct{font-size:10.5px;font-weight:400;opacity:.9}
+/* 小段隐藏文字，仅用 tooltip */
+.stacked-bar .bar-seg[data-small="1"] .seg-label{display:none}
+/* 小段隐藏文字，仅用 tooltip */
+.stacked-bar .bar-seg[data-small="1"] .seg-label{display:none}
+
+.wall-title{font-size:13px;font-weight:600;color:var(--ink-2);margin:20px 2px 10px;letter-spacing:.4px;display:flex;align-items:center;gap:8px}
+.wall-title::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+
+/* ---------- 衣物网格 ---------- */
+.grid{
+  display:grid;gap:10px;
+  grid-template-columns:repeat(3,1fr);
+}
+@media(min-width:480px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:680px){.grid{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(6,1fr)}}
+@media(min-width:1200px){.grid{grid-template-columns:repeat(7,1fr)}}
+
+.item{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;position:relative;transition:transform .15s ease, box-shadow .15s ease;
+}
+.item:active{transform:scale(.985)}
+.thumb{
+  aspect-ratio:1/1;width:100%;
+  background:#F0ECE4;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .ph{width:52px;height:52px;color:#C9C2B4}
+.thumb .cat{
+  position:absolute;left:9px;top:9px;
+  font-size:11px;color:var(--accent-deep);background:rgba(255,255,255,.92);
+  padding:3px 9px;border-radius:99px;border:1px solid var(--line);
+  backdrop-filter:blur(4px);
+}
+.thumb .thick{
+  position:absolute;left:9px;bottom:9px;
+  font-size:11px;color:#7a5a3a;background:rgba(255,255,255,.92);
+  padding:3px 9px;border-radius:99px;border:1px solid var(--line);
+  backdrop-filter:blur(4px);
+}
+.thumb .tools{position:absolute;right:8px;top:8px;display:flex;gap:6px}
+.edit,.del{
+  width:30px;height:30px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:rgba(39,35,29,.62);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .15s;
+}
+.edit svg,.del svg{width:14px;height:14px}
+.item:hover .edit,.item:hover .del,.edit:focus,.del:focus{opacity:1}
+@media(hover:none){.edit,.del{opacity:1}}
+.chip-tag{font-size:12px;color:var(--ink-2);background:var(--card);border:1px solid var(--line);padding:4px 11px;border-radius:99px}
+.chip-tag.thick-tag{color:var(--accent-deep);border-color:var(--accent)}
+.chip-tag.brand-tag{color:var(--ink-2)}
+.chip-tag.style-tag{color:#7A5230;border-color:#E6D6BF}
+.chip-tag.color-tag{display:inline-flex;align-items:center;gap:5px}
+.chip-tag .cdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.14);display:inline-block}
+.meta{padding:9px 11px 11px}
+.meta .nm{font-size:13.5px;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta .br{font-size:11.5px;color:var(--ink-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta .cl{font-size:11px;color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta .st{font-size:11px;color:#7A5230;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta .nt{font-size:11.5px;color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 卡片缩略图右下角色点（多色时并排展示） */
+.cdots{position:absolute;bottom:6px;right:6px;display:flex;gap:3px;z-index:2}
+.chip-tag.color-tag .cdots{position:static;gap:4px;margin-right:2px}
+.cdot-card{position:absolute;bottom:6px;right:6px;width:13px;height:13px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 1px 2px rgba(0,0,0,.25);z-index:2}
+
+/* 添加卡片：与 .item 完全一致的结构（缩略图 + meta），等高对齐 */
+.add-card{
+  background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+  overflow:hidden;text-align:left;padding:0;position:relative;
+  transition:border-color .15s,color .15s,box-shadow .15s;
+}
+.add-card:active{transform:scale(.985)}
+.add-card .add-thumb{
+  aspect-ratio:1/1;width:100%;
+  background:repeating-linear-gradient(45deg,#F4F1EB,#F4F1EB 10px,#EFEBE2 10px,#EFEBE2 20px);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-3);border-bottom:1px solid var(--line);
+}
+.add-card .add-thumb svg{width:30px;height:30px}
+.add-card .add-meta{padding:9px 11px 11px;font-size:13.5px;font-weight:550;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.add-card:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.add-card:hover .add-thumb{color:var(--accent)}
+
+/* ---------- 弹窗 ---------- */
+.modal-mask{
+  position:fixed;inset:0;z-index:60;
+  background:rgba(39,35,29,.38);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.modal-mask.show{display:flex}
+.modal{
+  width:100%;max-width:560px;
+  background:var(--bg);
+  border-radius:22px 22px 0 0;
+  padding:20px 20px calc(24px + env(safe-area-inset-bottom));
+  max-height:88vh;overflow-y:auto;
+  animation:up .28s cubic-bezier(.2,.8,.3,1);
+}
+@media(min-width:640px){
+  .modal-mask{align-items:center}
+  .modal{border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+.modal h2{font-size:17px;font-weight:650;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.modal h2 .x{width:30px;height:30px;border-radius:50%;background:var(--line-soft);display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.modal h2 .x svg{width:14px;height:14px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12.5px;color:var(--ink-2);margin-bottom:6px;letter-spacing:.3px}
+.fld label .req{color:var(--warn)}
+.fld input[type=text],.fld textarea{
+  width:100%;border:1px solid var(--line);border-radius:var(--radius-s);
+  background:var(--card);padding:11px 13px;font-size:16px;
+}
+.fld textarea{resize:none;min-height:64px}
+.fld input:focus,.fld textarea:focus{border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{
+  font-size:13px;color:var(--ink-2);background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:8px 15px;
+}
+.chips button.on{background:var(--ink);color:#F6F4F0;border-color:var(--ink)}
+.cchip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card);cursor:pointer;font-size:13.5px;color:var(--ink);transition:border-color .12s,background .12s,transform .08s}
+.cchip:hover{border-color:var(--accent);background:var(--accent-soft)}
+.cchip:active{transform:scale(.97)}
+.cchip.on{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 0 0 3px var(--accent-soft)}
+.cchip.on .cdot{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.cchip .cdot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.14);display:inline-block;flex:0 0 auto;background:var(--sw)}
+.cchips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;max-width:100%}
+.caddrow{display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.caddrow input[type=color]{width:42px;height:42px;padding:2px;border:1px solid var(--line);border-radius:10px;background:var(--bg);flex:none;cursor:pointer}
+.caddrow input[type=text]{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:10px 12px;font-size:14px}
+.caddrow button{flex:none;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;padding:0 16px;height:40px;font-size:14px;font-weight:600}
+.cempty{font-size:12.5px;color:var(--ink-3);padding:6px 2px;display:inline-block}
+.cdivider{margin:12px 0 6px;padding-top:10px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-3);font-weight:600}
+/* 高级颜色（拼色/渐变/花色）构建器 — 统一四类型 */
+.adv-toggle{margin-top:8px;align-self:flex-start;border:1px dashed var(--accent);background:var(--card);color:var(--accent-deep);border-radius:99px;padding:7px 14px;font-size:12.5px;cursor:pointer}
+.cadv{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.cadv-head{width:100%;font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;font-weight:600}
+.cadv-types,.cadv-pats{display:flex;gap:6px;width:100%}
+.adv-type-btn,.adv-pat-btn{flex:1;border:1.5px solid var(--line);background:var(--bg);color:var(--ink-2);border-radius:9px;padding:8px 4px;font-size:13px;font-weight:550;cursor:pointer;text-align:center;transition:all .15s}
+.adv-type-btn.active,.adv-pat-btn.active{border-color:var(--accent);background:var(--accent);color:#fff}
+.adv-type-btn:hover:not(.active),.adv-pat-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.cadv-colors{display:flex;gap:10px;width:100%;margin-top:4px}
+.cadv-pick-wrap{display:flex;flex-direction:column;gap:3px;align-items:center}
+.cadv-pick-wrap label{font-size:11px;color:var(--ink-3)}
+.cadv input[type=color]{width:44px;height:44px;padding:2px;border:1.5px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
+.cadv button#f_adv_gen{width:100%;margin-top:6px;border-radius:10px;padding:0 18px;height:40px;font-size:14px}
+/* 颜色 chip 中的类型标签 */
+.ctype{display:inline-block;font-size:10px;line-height:1;background:var(--accent-deep);color:#fff;border-radius:4px;padding:1px 5px;margin-right:4px;vertical-align:1px;font-weight:600;opacity:.75}
+.rec-dots{display:inline-flex;gap:3px;margin-right:3px}
+.rec-dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:0;margin-right:4px;border:1px solid rgba(0,0,0,.12)}
+/* 颜色下拉按钮选择器（四大类型 + 花色三级子按钮） */
+.ctype-sel{display:flex;flex-direction:column;gap:10px}
+.ctype-sec{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.ctype-head{display:flex;align-items:center;gap:8px;width:100%;background:var(--panel);border:none;padding:11px 14px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer}
+.ctype-head .badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--ink-3);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 8px}
+.ctype-head .caret{color:var(--ink-3);font-size:12px;transition:transform .2s}
+.ctype-sec.open .ctype-head .caret{transform:rotate(180deg)}
+.ctype-body{display:none;padding:12px 14px}
+.ctype-sec.open .ctype-body{display:block}
+.csub-sec{border:1px solid var(--line);border-radius:10px;margin-top:10px;overflow:hidden}
+.csub-head{display:flex;align-items:center;gap:6px;width:100%;background:var(--bg);border:none;padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer}
+.csub-head .badge{margin-left:auto;font-size:10.5px;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:1px 7px}
+.csub-head .caret{color:var(--ink-3);font-size:11px;transition:transform .2s}
+.csub-sec.open .csub-head .caret{transform:rotate(180deg)}
+.csub-body{display:none;padding:10px 12px}
+.csub-sec.open .csub-body{display:block}
+.imgpick{
+  border:1.5px dashed var(--line);border-radius:var(--radius-s);
+  background:var(--card);padding:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.imgpick .prev{
+  width:76px;height:96px;border-radius:8px;overflow:hidden;flex:none;
+  background:#F0ECE4;display:flex;align-items:center;justify-content:center;color:#C9C2B4;
+}
+.imgpick .prev img{width:100%;height:100%;object-fit:cover}
+.imgpick .prev svg{width:26px;height:26px}
+.imgpick .btns{flex:1;display:flex;flex-direction:column;gap:7px}
+.imgpick .up{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--accent-soft);color:var(--accent-deep);
+  font-size:13px;padding:10px;border-radius:9px;
+}
+.imgpick .up svg{width:15px;height:15px}
+.imgpick .urlrow{display:flex;gap:6px}
+.imgpick .urlrow input{
+  flex:1;border:1px solid var(--line);border-radius:9px;background:var(--bg);
+  padding:9px 10px;font-size:13px;min-width:0;
+}
+.imgpick .urlrow button{
+  flex:none;font-size:12.5px;color:var(--ink-2);border:1px solid var(--line);
+  border-radius:9px;padding:0 12px;background:var(--card);
+}
+/* 表单分区与两栏并排布局 */
+.fform-part{margin-top:18px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.fform-part:first-of-type{margin-top:2px;padding-top:0;border-top:none}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.frow .fcol .fld{margin-bottom:0}
+.fcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media(max-width:559px){ .frow{grid-template-columns:1fr;gap:16px} }
+.hint{font-size:11.5px;color:var(--ink-3);margin-top:7px;line-height:1.5}
+.actions{display:flex;gap:10px;margin-top:20px}
+.actions button{flex:1;padding:13px;border-radius:12px;font-size:15px;font-weight:550}
+.actions .cancel{background:var(--line-soft);color:var(--ink-2)}
+.actions .save{background:var(--ink);color:#F6F4F0}
+.actions .save:disabled{opacity:.45;cursor:not-allowed}
+
+/* 确认弹窗 */
+.confirm-box{max-width:340px;text-align:center;padding:26px 24px 20px}
+.confirm-box .ic{width:42px;height:42px;margin:0 auto 12px;color:var(--warn)}
+.confirm-box h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.confirm-box p{font-size:13px;color:var(--ink-2);margin-bottom:18px}
+.confirm-box .row{display:flex;gap:10px}
+.confirm-box .row button{flex:1;padding:11px;border-radius:11px;font-size:14px}
+.confirm-box .no{background:var(--line-soft);color:var(--ink-2)}
+.confirm-box .yes{background:var(--warn);color:#fff}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:calc(var(--tab-h) + 34px);transform:translateX(-50%);
+  z-index:80;max-width:86vw;
+  background:rgba(39,35,29,.94);color:#F3EFE8;
+  font-size:13.5px;padding:11px 18px;border-radius:12px;
+  display:none;align-items:center;gap:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.toast.show{display:flex;animation:up .25s ease}
+.toast .tretry{
+  flex:none;font-size:12.5px;color:#E8C9A6;border:1px solid rgba(232,201,166,.5);
+  padding:4px 12px;border-radius:99px;
+}
+@media(min-width:640px){.toast{bottom:44px}}
+
+/* 离线提示 */
+.offline-banner{
+  display:none;
+  margin:0 0 14px;padding:10px 14px;border-radius:var(--radius-s);
+  background:#F7E9E2;color:#A5553A;font-size:13px;
+  border:1px solid #EBCFBE;
+}
+.offline-banner.show{display:flex;align-items:center;gap:8px}
+
+/* ---------- 底部 Tab 栏（全端统一导航） ---------- */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  display:flex;
+  background:rgba(252,251,248,.97);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line-soft);
+  /* 适配刘海屏 / 底部安全区 */
+  padding-bottom:env(safe-area-inset-bottom);
+  -webkit-backdrop-filter:blur(14px);
+}
+.tabbar button{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px 2px 7px;font-size:10.5px;color:var(--ink-3);
+  min-height:54px;line-height:1.2;
+  -webkit-tap-highlight-color:transparent;
+  transition:color .15s;
+}
+.tabbar button svg{width:22px;height:22px;flex:none}
+.tabbar button.on{color:var(--ink);font-weight:600}
+.tabbar button.on svg{color:var(--accent)}
+
+/* 桌面端微调：字号略大、图标稍大 */
+@media(min-width:760px){
+  .tabbar button{font-size:11.5px;min-height:56px}
+  .tabbar button svg{width:23px;height:23px}
+  .tabbar button:hover{color:var(--ink)}
+}
+
+/* ---------- 折叠面板（手风琴） ---------- */
+.accordion{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);margin-bottom:10px;overflow:hidden}
+.accordion-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;cursor:pointer;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s;position:relative;
+}
+.accordion-header:hover{background:var(--panel)}
+.accordion-header:focus{outline:none;background:var(--accent-soft)}
+.accordion-header:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.accordion-hl{
+  display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;
+  color:var(--ink);pointer-events:none;
+}
+.accordion-hl .ac-icon{width:18px;height:18px;flex:none;color:var(--accent)}
+.accordion-hl .ac-title{letter-spacing:.2px}
+.accordion-hl .ac-count{
+  font-size:11.5px;font-weight:500;color:var(--ink-3);
+  background:var(--line-soft);padding:2px 8px;border-radius:99px;
+}
+.accordion-arrow{
+  width:20px;height:20px;flex:none;color:var(--ink-3);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);pointer-events:none;
+}
+.accordion[aria-expanded=true] .accordion-arrow{transform:rotate(180deg)}
+.accordion-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s cubic-bezier(.4,0,.2,1), padding .35s ease;
+  padding:0 16px;border-top:0 solid transparent;
+}
+.accordion[aria-expanded=true] .accordion-body{
+  max-height:3000px;padding:12px 16px 15px;border-top-color:var(--line-soft)
+}
+/* 折叠面板内的网格：间距略紧凑 */
+.accordion .grid{margin:0}
+
+/* 空状态 */
+.empty{padding:38px 16px;text-align:center;color:var(--ink-3)}
+.empty .ic{width:44px;height:44px;margin:0 auto 10px;color:#C9C2B4}
+.empty p{font-size:13.5px}
+</style>
+</head>
+<body data-page-node-id="WxwwVHI8rXuEnLt2Jhqjdk">
+
+<div data-page-node-id="79WkGu6KpeuRxhOOcLvYMM" class="topbar">
+  <div data-page-node-id="8ocT4MC6YjxXTYaT33J9sG" class="brand">
+    <div data-page-node-id="aXsJnMtihXr799uwoN6uEh" class="logo">
+      <svg data-page-node-id="3cgJXoxGXLOtbcf0lh4Ms9" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" viewBox="0 0 24 24" width="19"><path data-page-node-id="ALQyEjPgsmUEPQSCiYHMHq" d="M12 6a2 2 0 1 0-2-2"/><path data-page-node-id="asf5hPEbKvZ0XWki8CZ18p" d="M4 11.5 12 6l8 5.5"/><path data-page-node-id="Kx4Z4W7KJio0mBXFHRnng5" d="M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7"/></svg>
+    </div>
+    <div data-page-node-id="LqOuj0sOg662gQY3exWNYQ">
+      <h1 data-page-node-id="BK0pMNbErhMpZXEmaqhVZp"><!--pnid:nH4TiueXPuQGzvgZ09YDRO-->电子衣柜</h1>
+      <div data-page-node-id="OIno4UI5FgFmomSAz6qWcc" class="sub"><!--pnid:57CfTnKyKiKTSXbX44zF6r-->MY WARDROBE</div>
+    </div>
+  </div>
+  <div data-page-node-id="jziSGwDs6Q3l6bHH75N7rU" class="sync" id="sync" title="同步状态">
+    <span data-page-node-id="Fjw7IPzpUzA6ft42uuNZsW" class="dot"></span><span data-page-node-id="KftTuWb9YqxWr7PSlDMcEl" id="syncText"><!--pnid:rAb91CBl8q7wAFfBeK5bFJ-->连接中</span>
+  </div>
+</div>
+
+<main data-page-node-id="FI0LTBqXnk6nrZ2U1qb6XW">
+  <div data-page-node-id="Szd2NxYAZ8pZSqY7wrkMM0" class="offline-banner" id="offlineBanner">
+    <svg data-page-node-id="zRmxs65hkbNR0ezgy4zCkV" fill="none" height="15" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewBox="0 0 24 24" width="15"><path data-page-node-id="sVIEvL7zNYIOh24UiMxdnR" d="M12 9v4"/><path data-page-node-id="2IohncVzvzd8APqaW90IsQ" d="M12 17h.01"/><path data-page-node-id="IX2by5h1lbGqr9JeJOolip" d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+    <span data-page-node-id="yp9LghvkNNdH3x99ytacbY" style="flex:1"><!--pnid:Z09vVJpcp1qYEE4hBICqlT-->当前页面未连接到资料库，请通过在线链接访问；以下展示本地缓存（只读）。</span>
+    <button data-page-node-id="fQxIpaBUbktBqgjqWoXjLV" id="clearCache" style="flex:none; font-size:12px; color:#A5553A; border:1px solid #EBCFBE; border-radius:99px; padding:5px 12px"><!--pnid:wKI59HvXaNhtvFwXDvaRJ1-->清除缓存</button>
+  </div>
+
+  <section data-page-node-id="10V69pb3vpF0GG7haBD20t" class="view" id="view-overview"></section>
+  <section data-page-node-id="yh6UvY2pzdScajgUJoWEBG" class="view" id="view-tops"></section>
+  <section data-page-node-id="Uc7HmGsu13lKvIdlNpu0je" class="view" id="view-bottoms"></section>
+  <section data-page-node-id="ijkCbBsmSHjMh2zXoK7NWH" class="view" id="view-outerwear"></section>
+  <section data-page-node-id="ROlBQ6CLAQ5KBLgs2pXboY" class="view" id="view-dresses"></section>
+  <section data-page-node-id="fGsTRez1ccJfA1ubjwxnw8" class="view" id="view-shoes"></section>
+</main>
+
+<nav data-page-node-id="t0k7WzOjpkB9gNKzacJ1LE" class="tabbar" id="tabbar"></nav>
+
+<!--pnid:jFw7WL70ngEOXEL7Y4rzJU--><!-- 添加弹窗 -->
+<div data-page-node-id="qMxX5KYf0eZymreU752rJC" class="modal-mask" id="modalMask">
+  <div data-page-node-id="Sqmh0fIbJg5FjXEJ4OBIDu" class="modal" id="modal"></div>
+</div>
+
+<div data-page-node-id="knCcQhcvuNTRPo1lA6u3Dq" class="toast" id="toast"></div>
+
+<script data-page-node-id="I5hLyi3RAj3ZzWooHCp6wN" data-pnid-children="FaeluU8NCWRWW19PEi8gI5">
+(function(){
+"use strict";
+
+/* ================= 数据表定义（databaseId 硬编码） ================= */
+var DB = {
+  tops:      { id:"IO1P8JEwcKZT47IOsNIEDI", name:"上衣",   tab:"tops" },
+  bottoms:   { id:"7fRZ7MKMHyO80dkXRrLtFR", name:"下装",   tab:"bottoms" },
+  outerwear: { id:"7mSKIVmWlu0OhfVII9yFJQ", name:"外套",   tab:"outerwear" },
+  dresses:   { id:"TyAvDQXS9PAeuJHDlFgqdH", name:"连衣裙", tab:"dresses" },
+  shoes:     { id:"4B9TVFdt5k3QBeieaq0ZzM", name:"鞋子",   tab:"shoes" }
+};
+var KEYS = ["tops","bottoms","outerwear","dresses","shoes"];
+
+/* 厚度选项（5 级，用于新增/编辑衣物与按气温智能推荐） */
+var THICK_OPTS = ["超薄","偏薄","适中","偏厚","加厚"];
+/* 各气温档偏好的衣物厚度（用于智能推荐时优先选薄/厚合适的衣物）
+   注：「适中」厚度适配所有温度档——任何天气下都可作为推荐候选 */
+var THICK_PREF = {
+  "酷热":["超薄","偏薄","适中"], "炎热":["超薄","偏薄","适中"],
+  "温暖":["偏薄","适中"], "舒适":["偏薄","适中"],
+  "凉爽":["适中","偏厚"], "寒冷":["偏厚","加厚","适中"]
+};
+
+/* ================= 颜色调色板 & 配色和谐 ================= */
+/* 常用衣物颜色（名称 + 色值）：照片主色识别映射目标，也用于色卡展示 */
+var COLOR_PALETTE = [
+  {name:"黑",   hex:"#1C1C1C"}, {name:"白", hex:"#FFFFFF"}, {name:"米白", hex:"#F3EDE3"},
+  {name:"灰",   hex:"#9A9A9A"}, {name:"藏青", hex:"#233152"}, {name:"卡其", hex:"#C2B092"},
+  {name:"驼色", hex:"#C19A6B"}, {name:"杏色", hex:"#E6C7A1"}, {name:"牛仔蓝", hex:"#5C7CA3"},
+  {name:"酒红", hex:"#7A2E35"}, {name:"墨绿", hex:"#2F4A3C"}, {name:"粉", hex:"#E2B7C2"},
+  {name:"红",   hex:"#C0392B"}, {name:"黄", hex:"#E0C45E"}, {name:"紫", hex:"#6E5A8C"},
+  {name:"橙",   hex:"#D98A4E"}, {name:"蓝", hex:"#3E6EA5"}, {name:"绿", hex:"#5E8C5A"},
+  {name:"棕",   hex:"#8A5A2B"}
+];
+/* 中性色：与绝大多数颜色都好搭，作为配色安全牌 */
+var NEUTRAL_COLORS = ["黑","白","米白","灰","卡其","驼色","杏色","牛仔蓝","藏青"];
+var COLOR_HEX = {};
+COLOR_PALETTE.forEach(function(c){ COLOR_HEX[c.name] = c.hex; });
+/* 用户自定义颜色注册表（纯色名称→精确色值，用于页面内会话） */
+var CUSTOM_COLORS = {};
+
+/* 颜色解析：十六进制 / rgb() / rgba() / 调色板名称 → 规范 CSS 色值；无法识别返回 null
+   （注意：此函数仅解析原始色值字符串，不含类型前缀。带类型的 token 请用 colorCssOf()） */
+function resolveColor(v){
+  if(v == null) return null;
+  v = String(v).trim();
+  if(!v) return null;
+  /* 0) 用户自定义颜色注册表 */
+  if(CUSTOM_COLORS[v]) return CUSTOM_COLORS[v];
+  /* 1) 十六进制：#rgb / #rrggbb / 带 alpha 的 #rgba / #rrggbbaa */
+  var m = v.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/);
+  if(m){
+    var h = m[1].toLowerCase();
+    if(h.length === 3)      h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+    else if(h.length === 4) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2]; /* 丢弃 alpha，取实色 */
+    else if(h.length === 8) h = h.slice(0,6);
+    return "#"+h;
+  }
+  /* 2) rgb() / rgba()：规范化空格与分隔符，取前三个分量 */
+  var rm = v.match(/^rgba?\(([^)]+)\)$/i);
+  if(rm){
+    var parts = rm[1].split(/[,\s/]+/).filter(Boolean).map(Number);
+    if(parts.length >= 3 && parts.slice(0,3).every(function(n){ return !isNaN(n); })){
+      return "rgb("+parts[0]+","+parts[1]+","+parts[2]+")";
+    }
+  }
+  /* 3) 调色板名称：直接取其色值 */
+  if(COLOR_HEX[v]) return COLOR_HEX[v];
+  return null;
+}
+/* 注册自定义颜色（供添加/编辑表单调用）：name=显示名，cssVal=实际色值 */
+function registerCustomColor(name, cssVal){
+  if(!name || !cssVal) return;
+  var resolved = resolveColor(cssVal);
+  if(resolved) CUSTOM_COLORS[String(name).trim()] = resolved;
+}
+/* 页面加载后从已有衣物数据反向重建自定义颜色注册表：
+   扫描所有衣物的「颜色」字段，对能直接解析为 CSS 色值的条目做自注册
+   （这样之前存入的 #hex / rgb() 值能正确显色；纯文字名需用户重新通过取色器关联一次） */
+function rebuildCustomColors(){
+  KEYS.slice(0,5).forEach(function(k){
+    (cache[k]||[]).forEach(function(r){
+      parseColors(r["颜色"]).forEach(function(c){
+        c = String(c).trim(); if(!c) return;
+        /* 已在调色板中或非纯色（渐变/拼色/花色）无需注册 */
+        if(COLOR_HEX[c] || isAdvancedColor(c)) return;
+        /* 能直接解析的色值 → 自注册（名字=色值本身） */
+        var val = resolveColor(c);
+        if(val && !CUSTOM_COLORS[c]) CUSTOM_COLORS[c] = val;
+      });
+    });
+  });
+}
+function colorHex(name){ return solidOf(name); }
+/* 从图片 dataURL 提取主色：跳过近白背景与近黑阴影，平均剩余像素后映射到最近调色板色 */
+function detectDominantColor(dataUrl, cb){
+  try{
+    var img = new Image();
+    img.onload = function(){
+      try{
+        var n = 36, c = document.createElement("canvas");
+        c.width = n; c.height = n;
+        var ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0, n, n);
+        var d = ctx.getImageData(0,0,n,n).data;
+        var rs=0,gs=0,bs=0,cnt=0;
+        for(var i=0;i<d.length;i+=4){
+          var a=d[i+3], r=d[i], g=d[i+1], b=d[i+2];
+          if(a<128) continue;
+          var br = 0.299*r + 0.587*g + 0.114*b;
+          if(br>245) continue;   /* 跳过近白背景 */
+          if(br<8)   continue;   /* 跳过近黑阴影 */
+          rs+=r; gs+=g; bs+=b; cnt++;
+        }
+        if(cnt<5){ /* 几乎全白，退回整体平均 */
+          for(var j=0;j<d.length;j+=4){ if(d[j+3]<128) continue; rs+=d[j]; gs+=d[j+1]; bs+=d[j+2]; cnt++; }
+        }
+        if(cnt<=0){ cb(""); return; }
+        cb(nearestPalette([Math.round(rs/cnt),Math.round(gs/cnt),Math.round(bs/cnt)]));
+      }catch(e){ cb(""); }
+    };
+    img.onerror = function(){ cb(""); };
+    img.src = dataUrl;
+  }catch(e){ cb(""); }
+}
+function nearestPalette(rgb){
+  var best="", bestD=1e9;
+  COLOR_PALETTE.forEach(function(c){
+    var dr=parseInt(c.hex.slice(1,3),16)-rgb[0];
+    var dg=parseInt(c.hex.slice(3,5),16)-rgb[1];
+    var db=parseInt(c.hex.slice(5,7),16)-rgb[2];
+    var dist=dr*dr+dg*dg+db*db;
+    if(dist<bestD){ bestD=dist; best=c.name; }
+  });
+  return best;
+}
+function hexToRgb(hex){
+  if(typeof hex === "string"){
+    var mm = hex.match(/^rgb\((\d+),(\d+),(\d+)\)$/);   /* 兼容 colorHex 解析出的 rgb() 形式 */
+    if(mm) return [+mm[1], +mm[2], +mm[3]];
+  }
+  hex = (hex || "").trim();
+  if(hex[0] !== "#") return [204,204,204];
+  return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+}
+/* RGB → 色相（低饱和视为中性，返回 -1） */
+function rgbHue(rgb){
+  var r=rgb[0]/255,g=rgb[1]/255,b=rgb[2]/255;
+  var mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn;
+  if(d<0.12) return -1;
+  var h;
+  if(mx===r) h=((g-b)/d)%6; else if(mx===g) h=(b-r)/d+2; else h=(r-g)/d+4;
+  h=Math.round(h*60); if(h<0) h+=360;
+  return h;
+}
+/* 两色和谐度评分（越高越搭）：含中性色 2.0；同色系高；互补亦可；中间色相易冲突 */
+function colorHarmony(a,b){
+  if(!a||!b) return 1.2;
+  if(NEUTRAL_COLORS.indexOf(a)>=0 || NEUTRAL_COLORS.indexOf(b)>=0) return 2.0;
+  var ha=rgbHue(hexToRgb(colorHex(a))), hb=rgbHue(hexToRgb(colorHex(b)));
+  if(ha<0||hb<0) return 2.0;
+  var diff=Math.abs(ha-hb); diff=Math.min(diff,360-diff);
+  if(diff<30) return 1.7;   /* 同色系 */
+  if(diff>150) return 1.4;  /* 互补撞色，常有意 */
+  return 0.8;               /* 中间色相，易冲突 */
+}
+/* 由已选颜色推导配色方案（名称），覆盖更丰富的色系类型 */
+function colorScheme(cols){
+  cols = cols.filter(Boolean);
+  if(!cols.length) return "自由搭配";
+  if(cols.every(function(c){ return NEUTRAL_COLORS.indexOf(c)>=0; })) return "中性极简";
+  var nonN = cols.filter(function(c){ return NEUTRAL_COLORS.indexOf(c)<0; });
+  if(nonN.length===1) return "彩色点睛";
+  var hues = nonN.map(function(c){ return rgbHue(hexToRgb(colorHex(c))); }).filter(function(h){ return h>=0; });
+  if(hues.length>=2){
+    var mx=Math.max.apply(null,hues), mn=Math.min.apply(null,hues), span=mx-mn;
+    /* 大地色系：暖调低饱和的驼/棕/卡其/杏/米白/酒红/橙/藏青/牛仔蓝 */
+    var earth=["驼色","卡其","棕","杏色","米白","酒红","橙","藏青","牛仔蓝"];
+    if(nonN.every(function(c){ return earth.indexOf(c)>=0; })) return "大地色系";
+    if(span<=35) return "同色系渐变";
+    if(span>=150) return "互补撞色";
+    return "邻近撞色";
+  }
+  return "双彩平衡";
+}
+/* 各配色方案的搭配贴士（面板展示，丰富「配色方案」信息） */
+var SCHEME_TIPS = {
+  "自由搭配":   "按你的衣橱自由组合，随心就好。",
+  "中性极简":   "黑白灰驼怎么搭都不出错，通勤极简首选。",
+  "彩色点睛":   "一件亮色压阵、其余留白，干净又有记忆点。",
+  "同色系渐变": "同色深浅叠穿，显高显瘦还显贵。",
+  "互补撞色":   "冷暖对撞张力拉满，适合想被记住的日子。",
+  "邻近撞色":   "相邻色相小撞色，活泼又不显乱。",
+  "大地色系":   "驼棕卡其暖调，温柔治愈的法式感。",
+  "双彩平衡":   "两抹彩色的平衡术，明快有层次。"
+};
+
+/* ===== 统一四类型颜色系统 =====
+ * 支持四种颜色类型，每种在存储中带明确类型标签：
+ *   "纯色:红"              → 纯色，名称=红（查调色板取色值）
+ *   "纯色:浅绿|#90EE90"     → 纯色，名称=浅绿，精确色值=#90EE90
+ *   "纯色:#A2C4E0"          → 纯色，名称=#A2C4E0（直接当 hex 用）
+ *   "渐变:linear-gradient(135deg,#A,#B)"
+ *   "拼色:linear-gradient(90deg,#A 0 50%,#B 50% 100%)"
+ *   "花色·条纹:repeating-linear-gradient(45deg,...)"
+ *   "花色·格纹:repeating-linear-gradient(0deg,...),repeating-linear-gradient(90deg,...)"
+ *   "花色·波点:radial-gradient(circle at center,...)"
+ *
+ * 格式：TYPE_PREFIX=":" 分隔类型标签与载荷
+ * 旧格式（无类型前缀的裸字符串）自动识别为「纯色」并兼容解析
+ */
+var COLOR_TYPE_SEP = ":";
+var COLOR_VAL_SEP = "|"; /* 纯色内部：名称与精确色值的分隔 */
+var COLOR_TYPES = ["纯色","拼色","渐变","花色·条纹","花色·格纹","花色·波点"];
+
+/* 解析单个颜色 token 为结构化对象 {type, raw, payload} */
+function parseColorToken(token){
+  token = String(token||"").trim(); if(!token) return null;
+  var idx = token.indexOf(COLOR_TYPE_SEP);
+  if(idx > 0){
+    var type = token.slice(0,idx).trim(), payload = token.slice(idx+1).trim();
+    if(COLOR_TYPES.indexOf(type) >= 0) return {type:type, raw:token, payload:payload};
+  }
+  /* 无类型前缀 → 旧格式，统一视为「纯色」 */
+  return {type:"纯色", raw:token, payload:token};
+}
+function colorTypeOf(t){ var p=parseColorToken(t); return p?p.type:""; }
+/* 一级类型：花色·条纹/格纹/波点 统一归为「花色」，用于「每个类型内部单选」判定 */
+function colorTopType(t){ var p=parseColorToken(t); if(!p) return ""; return p.type.indexOf("花色")===0?"花色":p.type; }
+function colorPayloadOf(t){ var p=parseColorToken(t); return p?p.payload:""; }
+
+/* 纯色载荷解析："name" / "name|#hex" / "#hex" / "rgb(...)" → {name, css} */
+function solidNameAndCss(payload){
+  var vi = payload.indexOf(COLOR_VAL_SEP);
+  if(vi > 0) return {name:payload.slice(0,vi).trim(), css:payload.slice(vi+1).trim()};
+  if(/^#[0-9a-fA-F]{3,8}$/i.test(payload) || /^rgb/i.test(payload)) return {name:payload, css:payload};
+  return {name:payload, css:COLOR_HEX[payload]||""};
+}
+
+/* 从 token 取显示名（用于 chip 文字标签） */
+function colorDisplayOf(token){
+  var p = parseColorToken(token); if(!p) return "";
+  if(p.type==="纯色"){ var sc=solidNameAndCss(p.payload); return sc.name; }
+  return p.type; /* 非纯色直接显示类型名 */
+}
+
+/* 从 token 取 CSS 色值（用于圆点 background） */
+function colorCssOf(token){
+  var p = parseColorToken(token); if(!p) return "#B9A98F";
+  if(p.type!=="纯色") return p.payload; /* 非纯色直接透传 CSS */
+  var sc = solidNameAndCss(p.payload);
+  if(sc.css) return sc.css;
+  return resolveColor(sc.name) || "#B9A98F";
+}
+
+/* ===== 向后兼容的旧函数（供卡片/详情/推荐等调用方继续使用）===== */
+
+/* 颜色中文标签（向后兼容 colorLabel 接口） */
+function colorLabel(c){ return colorDisplayOf(c)||String(c||""); }
+
+/* 是否非纯色（用于判断是否透传 CSS background） */
+function isAdvancedColor(token){ var t=colorTypeOf(token); return t!=="纯色"; }
+
+/* 圆点色值（swatchOf 向后兼容接口） */
+function swatchOf(name){ return colorCssOf(name); }
+
+/* 取代表性纯色（用于配色和谐度评分） */
+function solidOf(v){
+  v = String(v==null?"":v).trim(); if(!v) return "#B9A98F";
+  if(v.charAt(0)==="["){
+    try{ var arr=JSON.parse(v); if(Array.isArray(arr)){ for(var i=0;i<arr.length;i++){ var s=solidOf(arr[i]); if(s && s!=="#B9A98F") return s; } } }catch(e){}
+    return "#B9A98F";
+  }
+  var css = colorCssOf(v);
+  if(isAdvancedColor(v)){ var m=css.match(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})/i); return m?("#"+m[1].toLowerCase()):"#B9A98F"; }
+  return resolveColor(css) || css || "#B9A98F";
+}
+
+/* colorHex 向后兼容（返回代表性纯色 hex/rgb） */
+function colorHex(name){ return solidOf(name); }
+
+/* ===== 颜色字段读写（多选 JSON 数组）===== */
+
+/* 解析「颜色」字段：新版为 JSON 数组（每项为 TYPE:payload 格式），旧版兼容 */
+function parseColors(str){
+  if(!str) return [];
+  str = String(str).trim(); if(!str) return [];
+  if(str.charAt(0)==="["){
+    try{ var a=JSON.parse(str); if(Array.isArray(a)) return a.filter(Boolean).map(function(x){return String(x).trim();}); }catch(e){}
+  }
+  return [str];
+}
+
+/* 序列化颜色数组：空→""；单色→字符串；多色→JSON 数组 */
+function serializeColors(arr){
+  arr=(arr||[]).filter(function(x){return x&&String(x).trim();}).map(function(x){return String(x).trim();});
+  if(!arr.length) return "";
+  if(arr.length===1) return arr[0];
+  return JSON.stringify(arr);
+}
+
+/* 构建新的纯色 token：makeSolid("红") → "纯色:红"；makeSolid("浅绿","#90EE90") → "纯色:浅绿|#90EE90" */
+function makeSolid(name, cssVal){
+  name = String(name||"").trim(); if(!name) return "";
+  if(cssVal) return "纯色:"+name+COLOR_VAL_SEP+String(cssVal).trim();
+  return "纯色:"+name;
+}
+
+/* 构建非纯色 token：makeAdvanced("渐变", cssValue) → "渐变:cssValue" */
+function makeAdvanced(type, cssValue){
+  return type+COLOR_TYPE_SEP+String(cssValue).trim();
+}
+
+/* 有效颜色分类列表（去重、按关联衣物数排序） */
+function availableColors(){
+  var cnt={};
+  KEYS.slice(0,5).forEach(function(k){
+    (cache[k]||[]).forEach(function(r){
+      parseColors(r["颜色"]).forEach(function(c){ c=String(c).trim(); if(c) cnt[c]=(cnt[c]||0)+1; });
+    });
+  });
+  return Object.keys(cnt).sort(function(a,b){ return cnt[b]-cnt[a]||(a<b?-1:1); });
+}
+
+/* 页面加载后反向重建自定义颜色注册表（纯色中含精确色值的条目自动注册） */
+function rebuildCustomColors(){
+  KEYS.slice(0,5).forEach(function(k){
+    (cache[k]||[]).forEach(function(r){
+      parseColors(r["颜色"]).forEach(function(c){
+        var p=parseColorToken(c); if(!p) return;
+        if(p.type!=="纯色") return; /* 非纯色无需注册 */
+        var sc=solidNameAndCss(p.payload);
+        if(!sc.css) return; /* 无精确色值无需注册 */
+        if(COLOR_HEX[sc.name]) return; /* 已在调色板中的标准色无需注册 */
+        if(!CUSTOM_COLORS[sc.name]) CUSTOM_COLORS[sc.name]=sc.css;
+      });
+    });
+  });
+}
+
+/* 颜色 token 列表按类型分组（用于下拉按钮选择器） */
+function groupColorsByType(list){
+  var g = { "纯色":[], "拼色":[], "渐变":[], "花色·条纹":[], "花色·格纹":[], "花色·波点":[] };
+  (list||[]).forEach(function(c){
+    var t = colorTypeOf(c);
+    if(g[t]) g[t].push(c); else g["纯色"].push(c);
+  });
+  return g;
+}
+
+/* 花色图案 CSS（条纹 / 格纹 / 波点） */
+function hxPattern(pat, A, B){
+  if(pat==="条纹") return "repeating-linear-gradient(45deg,"+A+" 0 9px,"+B+" 9px 18px)";
+  if(pat==="格纹") return "repeating-linear-gradient(0deg,"+A+" 0 9px,"+B+" 9px 18px),repeating-linear-gradient(90deg,"+A+" 0 9px,"+B+" 9px 18px)";
+  return "radial-gradient(circle at center,"+B+" 2.5px,"+A+" 2.6px) 0 0 / 14px 14px";
+}
+
+/* 颜色下拉按钮选择器 HTML：四大类型按钮 + 花色下三级子按钮；每类面板内「自定义生成器」在上、「已存颜色」圆点在下且可点选 */
+function colorSelectorHtml(allColors, selected){
+  var g = groupColorsByType(allColors);
+  var sel = selected||[];
+  function has(t){ return sel.some(function(c){ return colorTypeOf(c)===t; }); }
+  function hasHx(){ return sel.some(function(c){ return (colorTypeOf(c)||"").indexOf("花色")===0; }); }
+  function chips(t){
+    var arr = g[t]||[];
+    if(!arr.length) return '<span class="cempty">暂无已存颜色，可在上方自定义添加</span>';
+    return arr.map(function(c){
+      var on = sel.indexOf(c)>=0;
+      return '<button type="button" data-color="'+esc(c)+'" data-ctype="'+esc(t)+'" class="cchip'+(on?" on":"")+'" style="--sw:'+colorCssOf(c)+'" title="'+esc(colorLabel(c))+'"><span class="cdot"></span>'+esc(colorLabel(c))+'</button>';
+    }).join("");
+  }
+  /* 已存颜色块：位于自定义生成器下方，圆点可点选；仅在有数据时显示分隔标签 */
+  function existing(t){
+    var arr = g[t]||[];
+    if(!arr.length) return '<div class="cchips" data-group="'+t+'"><span class="cempty">暂无已存颜色，可在上方自定义添加</span></div>';
+    return '<div class="cdivider"><span>已存颜色</span></div><div class="cchips" data-group="'+t+'">'+chips(t)+'</div>';
+  }
+  function solidAdd(){ return '<div class="caddrow"><input type="color" id="f_c_pick" value="#B9A98F" title="选取精确颜色"><input type="text" id="f_c_name" placeholder="颜色名，如：浅绿 / 米白" maxlength="20"><button type="button" id="f_c_add">添加</button></div>'; }
+  function pairAdd(type, pre){
+    return '<div class="caddrow adv">'
+      + '<div class="cadv-pick-wrap"><label>主色</label><input type="color" id="f_'+pre+'_a" value="#FF5733"></div>'
+      + '<div class="cadv-pick-wrap"><label>副色</label><input type="color" id="f_'+pre+'_b" value="#1C1C1C"></div>'
+      + '<button type="button" id="f_'+pre+'_add">生成并添加</button></div>';
+  }
+  function hxSub(pat){
+    var t="花色·"+pat;
+    return '<div class="csub-sec" data-cpat="'+pat+'">'
+      + '<button type="button" class="csub-head">'+pat+' <span class="badge">'+(g[t]||[]).length+'</span><span class="caret">▾</span></button>'
+      + '<div class="csub-body">'+pairAdd(t,"hx_"+pat)+existing(t)+'</div></div>';
+  }
+  return ''
+    + '<div class="ctype-sec" data-ctype="纯色">'
+      + '<button type="button" class="ctype-head">纯色 <span class="badge">'+(g["纯色"]||[]).length+'</span><span class="caret">▾</span></button>'
+      + '<div class="ctype-body">'+solidAdd()+existing("纯色")+'</div></div>'
+    + '<div class="ctype-sec" data-ctype="拼色">'
+      + '<button type="button" class="ctype-head">拼色 <span class="badge">'+(g["拼色"]||[]).length+'</span><span class="caret">▾</span></button>'
+      + '<div class="ctype-body">'+pairAdd("拼色","pc")+existing("拼色")+'</div></div>'
+    + '<div class="ctype-sec" data-ctype="渐变">'
+      + '<button type="button" class="ctype-head">渐变 <span class="badge">'+(g["渐变"]||[]).length+'</span><span class="caret">▾</span></button>'
+      + '<div class="ctype-body">'+pairAdd("渐变","gd")+existing("渐变")+'</div></div>'
+    + '<div class="ctype-sec" data-ctype="花色">'
+      + '<button type="button" class="ctype-head">花色 <span class="caret">▾</span></button>'
+      + '<div class="ctype-body">'+hxSub("条纹")+hxSub("格纹")+hxSub("波点")+'</div></div>';
+}
+
+/* 颜色下拉按钮选择器接线（新增/编辑表单共用）；addFn 负责选中（纯色单选） */
+function wireColorSelector(addFn){
+  $$("#f_color .ctype-head").forEach(function(h){
+    h.addEventListener("click", function(){ h.closest(".ctype-sec").classList.toggle("open"); });
+  });
+  $$("#f_color .csub-head").forEach(function(h){
+    h.addEventListener("click", function(){ h.closest(".csub-sec").classList.toggle("open"); });
+  });
+  $$("#f_color .cchip").forEach(function(b){
+    b.addEventListener("click", function(){ addFn(b.getAttribute("data-color")); });
+  });
+  /* 纯色添加（单选） */
+  var sp=$("#f_c_pick"), sn=$("#f_c_name"), sb=$("#f_c_add");
+  if(sb) sb.addEventListener("click", function(){
+    var v=(sn&&sn.value||"").trim(); var p=(sp&&sp.value||"").trim()||"#B9A98F";
+    if(!v) v=p;
+    var css=null;
+    if(/^#/.test(v)){ /* hex 名，无需额外色值 */ }
+    else if(COLOR_HEX[v]){ /* 标准色名可解析，无需额外色值 */ }
+    else { css=p; }
+    addFn(makeSolid(v, css));
+    if(sn) sn.value="";
+  });
+  /* 拼色 / 渐变 添加（四类互斥） */
+  bindPairSel("拼色", "#f_pc_a", "#f_pc_b", "#f_pc_add", addFn);
+  bindPairSel("渐变", "#f_gd_a", "#f_gd_b", "#f_gd_add", addFn);
+  /* 花色三级子按钮添加（四类互斥） */
+  ["条纹","格纹","波点"].forEach(function(pat){ bindHxSel(pat, addFn); });
+}
+function bindPairSel(type, aSel, bSel, btnSel, addFn){
+  var a=$(aSel), b=$(bSel), btn=$(btnSel); if(!btn) return;
+  btn.addEventListener("click", function(){
+    var A=a&&a.value, B=b&&b.value; if(!A||!B) return;
+    var css = type==="渐变" ? "linear-gradient(135deg,"+A+","+B+")" : "linear-gradient(90deg,"+A+" 0 50%,"+B+" 50% 100%)";
+    addFn(makeAdvanced(type, css));
+  });
+}
+function bindHxSel(pat, addFn){
+  var a=$("#f_hx_"+pat+"_a"), b=$("#f_hx_"+pat+"_b"), btn=$("#f_hx_"+pat+"_add");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    var A=a&&a.value, B=b&&b.value; if(!A||!B) return;
+    addFn(makeAdvanced("花色·"+pat, hxPattern(pat, A, B)));
+  });
+}
+
+var STYLES = ["休闲","法式","田园","通勤","甜美","运动","简约"];
+var CLOTH_CATS = {
+  tops:      ["T恤","衬衫","针织","卫衣"],
+  bottoms:   ["半身裙","牛仔裤","休闲裤"],
+  outerwear: ["夹克"],
+  dresses:   ["长裙","吊带裙"],
+  shoes:     ["运动鞋","高跟鞋","平底鞋","靴子"]
+};
+/* ================= 状态 ================= */
+var cache = { tops:[], bottoms:[], outerwear:[], dresses:[], shoes:[] };
+var tableState = {};   // key -> loading|error|ready
+var pendingWrite = null; // 失败后用于重试 {fn,label}
+var currentTab = "overview";
+var selectedCat = {};  // 衣物 tab 当前分类筛选（'' = 全部）
+var sdkOk = !!(window.__SMART_PAGE__ && window.__SMART_PAGE__.database);
+var lsKey = "wb_wardrobe_cache_v1";
+
+/* ================= 工具 ================= */
+function $(s,c){ return (c||document).querySelector(s); }
+function $$(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); }
+function el(html){ var d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstChild; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];}); }
+function imgSrcOf(row, field){
+  var v = row && row[field];
+  if(!v || !v.length) return "";
+  return v[0].imageUrl || "";
+}
+function storeCache(){ try{ localStorage.setItem(lsKey, JSON.stringify(cache)); }catch(e){} }
+function loadCache(){
+  try{
+    var raw = localStorage.getItem(lsKey);
+    if(raw){ var c = JSON.parse(raw); if(c && typeof c==="object"){ for(var k in c) if(cache[k]) cache[k]=c[k]||[]; } }
+  }catch(e){}
+}
+
+var ICONS = {
+  overview:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>',
+  tops:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 4 12 2.5 15.5 4v3.5l2.5 1.5-1.5 2-1-.5V20a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-9.5l-1 .5L6.5 9 9 7.5Z"/></svg>',
+  bottoms:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10l.5 5-1.5 3v9l-4-1v-8h0l-4 8v-8L6 9Z"/></svg>',
+  outerwear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l2 5-3 2-1.5-2v13h-5V8L8 10 5 8Z"/></svg>',
+  dresses:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l.8 3-2.3 2.5v13.5h-3V8.5L8.2 6Z"/></svg>',
+  shoes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M4 17c0-4 2-7 5-9l2-3h2l2 3c3 2 5 5 5 9"/><path d="M7 14a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>',
+  retry:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>',
+  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  camera:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v12H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  hanger:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a2 2 0 1 0-2-2"/><path d="M4 11.5 12 6l8 5.5"/><path d="M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7"/></svg>',
+  chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>'
+};
+
+/* ================= 折叠面板（手风琴） ================= */
+/* 生成单个折叠面板 HTML
+   id: 唯一标识
+   title: 标题文字
+   icon: SVG 图标（可选）
+   content: 面板内部 HTML
+   count: 右侧计数文字（可选）
+   defaultOpen: 是否默认展开（默认 false）
+*/
+/* 标签文字纯色：按该段实际颜色亮度决定深/浅，保证对比可读 */
+function getLabelColor(hex){
+  var r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  var lum = 0.299*r + 0.587*g + 0.114*b;   /* 相对亮度 */
+  return lum > 150 ? "rgb(45,35,25)" : "rgb(255,255,255)";  /* 亮底深字 / 暗底白字 */
+}
+/* 颜色插值工具：主渐变按条形累计位置连续插值，方向与条形一致 */
+function hexToRgb(h){ h=h.replace('#',''); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
+function rgbToHex(r,g,b){ return '#'+[r,g,b].map(function(x){ var s=Math.max(0,Math.min(255,Math.round(x))).toString(16); return s.length<2?'0'+s:s; }).join(''); }
+function lerpColor(a,b,t){ var ca=hexToRgb(a), cb=hexToRgb(b); return rgbToHex(ca[0]+(cb[0]-ca[0])*t, ca[1]+(cb[1]-ca[1])*t, ca[2]+(cb[2]-ca[2])*t); }
+/* 渐变端点：起始=奶油米白(#EADBC8) → 终点=深棕(#5A3D26)，避免近黑 */
+var GRAD_START = "#EADBC8", GRAD_END = "#5A3D26";
+function accordionPanel(id, title, icon, content, count, defaultOpen){
+  var open = !!defaultOpen;
+  var cntHtml = count ? '<span class="ac-count">'+esc(count)+'</span>' : '';
+  var iconHtml = icon ? '<span class="ac-icon">'+icon+'</span>' : '';
+  return (
+    '<div class="accordion" id="ac-'+id+'" data-ac="'+id+'" aria-expanded="'+open+'" role="region">' +
+      '<div class="accordion-header" id="ac-hd-'+id+'" tabindex="0" role="button" aria-expanded="'+open+'" aria-controls="ac-bd-'+id+'">' +
+        '<span class="accordion-hl">'+iconHtml+'<span class="ac-title">'+esc(title)+'</span>'+cntHtml+'</span>' +
+        '<span class="accordion-arrow">'+ICONS.chevron+'</span>' +
+      '</div>' +
+      '<div class="accordion-body" id="ac-bd-'+id+'" role="region" aria-labelledby="ac-hd-'+id+'">'+content+'</div>' +
+    '</div>'
+  );
+}
+
+function bindAccordion(root){
+  var ctx = root || document;
+  $$(".accordion-header", ctx).forEach(function(hd){
+    /* 避免重复绑定 */
+    if(hd._acBound) return;
+    hd._acBound = true;
+
+    function toggle(){
+      var panel = hd.closest(".accordion");
+      var expanded = panel.getAttribute("aria-expanded") === "true";
+      var newState = !expanded;
+      panel.setAttribute("aria-expanded", String(newState));
+      hd.setAttribute("aria-expanded", String(newState));
+    }
+    hd.addEventListener("click", toggle);
+    hd.addEventListener("keydown", function(e){
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); toggle(); }
+    });
+  });
+}
+
+/* ================= Toast / 同步状态 ================= */
+var toastTimer = null;
+function toast(msg, withRetry){
+  var t = $("#toast");
+  t.innerHTML = "";
+  var span = document.createElement("span");
+  span.textContent = msg;
+  t.appendChild(span);
+  if(withRetry && pendingWrite){
+    var b = el('<button class="tretry">重试</button>');
+    b.addEventListener("click", function(){
+      hideToast();
+      var w = pendingWrite; pendingWrite = null;
+      w.fn().then(function(){ toast("已重试成功"); refreshTable(w.tab); }).catch(function(){ toast("重试失败，请检查网络后重试", true); });
+    });
+    t.appendChild(b);
+  }
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 3600);
+}
+function hideToast(){ $("#toast").classList.remove("show"); }
+
+function setSync(st){
+  var el = $("#sync");
+  el.classList.remove("ok","err","syncing");
+  if(st==="ok"){ el.classList.add("ok"); $("#syncText").textContent="已同步"; }
+  else if(st==="err"){ el.classList.add("err"); $("#syncText").textContent="同步失败"; }
+  else { el.classList.add("syncing"); $("#syncText").textContent="同步中"; }
+}
+function markLoading(){ setSync("syncing"); }
+function markOk(){ setSync("ok"); }
+function markErr(){ setSync("err"); }
+
+/* ================= 数据访问 ================= */
+function db(){ return window.__SMART_PAGE__.database; }
+
+/* databaseId 以字面量硬编码（资料库红线） */
+function q(key){
+  var fns = {
+    tops:      function(){ return window.__SMART_PAGE__.database.query({ databaseId:"IO1P8JEwcKZT47IOsNIEDI", pageSize:500 }); },
+    bottoms:   function(){ return window.__SMART_PAGE__.database.query({ databaseId:"7fRZ7MKMHyO80dkXRrLtFR", pageSize:500 }); },
+    outerwear: function(){ return window.__SMART_PAGE__.database.query({ databaseId:"7mSKIVmWlu0OhfVII9yFJQ", pageSize:500 }); },
+    dresses:   function(){ return window.__SMART_PAGE__.database.query({ databaseId:"TyAvDQXS9PAeuJHDlFgqdH", pageSize:500 }); },
+    shoes:     function(){ return window.__SMART_PAGE__.database.query({ databaseId:"4B9TVFdt5k3QBeieaq0ZzM", pageSize:500 }); }
+  };
+  return fns[key]();
+}
+function addRec(key, props){
+  var fns = {
+    tops:      function(){ return window.__SMART_PAGE__.database.addRecord({ databaseId:"IO1P8JEwcKZT47IOsNIEDI", properties: props }); },
+    bottoms:   function(){ return window.__SMART_PAGE__.database.addRecord({ databaseId:"7fRZ7MKMHyO80dkXRrLtFR", properties: props }); },
+    outerwear: function(){ return window.__SMART_PAGE__.database.addRecord({ databaseId:"7mSKIVmWlu0OhfVII9yFJQ", properties: props }); },
+    dresses:   function(){ return window.__SMART_PAGE__.database.addRecord({ databaseId:"TyAvDQXS9PAeuJHDlFgqdH", properties: props }); },
+    shoes:     function(){ return window.__SMART_PAGE__.database.addRecord({ databaseId:"4B9TVFdt5k3QBeieaq0ZzM", properties: props }); }
+  };
+  return fns[key]();
+}
+function delRec(key, id){
+  var fns = {
+    tops:      function(){ return window.__SMART_PAGE__.database.deleteRecord({ databaseId:"IO1P8JEwcKZT47IOsNIEDI", recordId: id }); },
+    bottoms:   function(){ return window.__SMART_PAGE__.database.deleteRecord({ databaseId:"7fRZ7MKMHyO80dkXRrLtFR", recordId: id }); },
+    outerwear: function(){ return window.__SMART_PAGE__.database.deleteRecord({ databaseId:"7mSKIVmWlu0OhfVII9yFJQ", recordId: id }); },
+    dresses:   function(){ return window.__SMART_PAGE__.database.deleteRecord({ databaseId:"TyAvDQXS9PAeuJHDlFgqdH", recordId: id }); },
+    shoes:     function(){ return window.__SMART_PAGE__.database.deleteRecord({ databaseId:"4B9TVFdt5k3QBeieaq0ZzM", recordId: id }); }
+  };
+  return fns[key]();
+}
+function updateRec(key, id, props){
+  var fns = {
+    tops:      function(){ return window.__SMART_PAGE__.database.updateRecord({ databaseId:"IO1P8JEwcKZT47IOsNIEDI", recordId: id, properties: props }); },
+    bottoms:   function(){ return window.__SMART_PAGE__.database.updateRecord({ databaseId:"7fRZ7MKMHyO80dkXRrLtFR", recordId: id, properties: props }); },
+    outerwear: function(){ return window.__SMART_PAGE__.database.updateRecord({ databaseId:"7mSKIVmWlu0OhfVII9yFJQ", recordId: id, properties: props }); },
+    dresses:   function(){ return window.__SMART_PAGE__.database.updateRecord({ databaseId:"TyAvDQXS9PAeuJHDlFgqdH", recordId: id, properties: props }); },
+    shoes:     function(){ return window.__SMART_PAGE__.database.updateRecord({ databaseId:"4B9TVFdt5k3QBeieaq0ZzM", recordId: id, properties: props }); }
+  };
+  return fns[key]();
+}
+
+function queryAll(key){
+  return q(key)
+    .then(function(res){
+      var rows = (res && res.results) || [];
+      cache[key] = rows;
+      storeCache();
+      tableState[key] = "ready";
+      return rows;
+    })
+    .catch(function(err){
+      tableState[key] = "error";
+      throw err;
+    });
+}
+
+function fetchTable(key){
+  tableState[key] = "loading";
+  renderTable(key);
+  return queryAll(key).then(function(){
+    renderTable(key);
+  }).catch(function(){
+    renderTable(key);
+  });
+}
+
+function fetchAll(){
+  markLoading();
+  return Promise.all(KEYS.map(queryAll))
+    .then(function(){ rebuildCustomColors(); markOk(); renderCurrent(); })
+    .catch(function(){
+      // 至少部分成功也渲染，失败的显示重试
+      var anyOk = false;
+      KEYS.forEach(function(k){ if(tableState[k]==="ready") anyOk = true; });
+      if(anyOk) markOk(); else markErr();
+      rebuildCustomColors();
+      renderCurrent();
+    });
+}
+
+/* ================= 导航 ================= */
+var TABS = [
+  { key:"overview",  label:"衣橱",   icon:ICONS.overview },
+  { key:"tops",      label:"上衣",   icon:ICONS.tops },
+  { key:"bottoms",   label:"下装",   icon:ICONS.bottoms },
+  { key:"outerwear", label:"外套",   icon:ICONS.outerwear },
+  { key:"dresses",   label:"连衣裙", icon:ICONS.dresses },
+  { key:"shoes",     label:"鞋子",   icon:ICONS.shoes }
+];
+
+function buildNav(){
+  var html = "";
+  TABS.forEach(function(t){ html += '<button data-tab="'+t.key+'" class="'+(t.key===currentTab?"on":"")+'">'+t.icon+'<span>'+t.label+'</span></button>'; });
+  $("#tabbar").innerHTML = html;
+  $$("#tabbar button").forEach(bindTab);
+}
+function bindTab(b){
+  b.addEventListener("click", function(){ switchTab(b.getAttribute("data-tab")); });
+}
+function switchTab(key){
+  currentTab = key;
+  $$("#tabbar button").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-tab")===key); });
+  renderCurrent();
+  window.scrollTo({top:0});
+}
+function renderCurrent(){
+  $$("section.view").forEach(function(s){ s.classList.remove("on"); });
+  $("#view-"+currentTab).classList.add("on");
+  renderTable(currentTab);
+}
+
+/* ================= 身体数据（身高体重 / 肩胸腰臀）本地可编辑 ================= */
+var METRIC_DEFAULTS = { h:152, w:52, shoulder:36, bust:85, waist:70, hip:90 };
+var METRIC_KEYS = ["h","w","shoulder","bust","waist","hip"];
+/* 根据肩胸腰臀自动识别体型 */
+function detectBodyType(m){
+  var s = m.shoulder || 0, b = m.bust || 0, w = m.waist || 0, h = m.hip || 0;
+  var whr = w > 0 ? (h / w) : 1; /* 臀腰比（臀/腰） */
+  var diffBH = Math.abs(b - h);    /* 胸臀差 */
+  var hwDiff = h - w;              /* 臀腰差 */
+  /* 身高判断体型大小前缀 */
+  var ht = m.h || 0;
+  var sizePrefix = ht < 155 ? "娇小" : (ht < 165 ? "标准" : "高挑");
+  /* 梨形：臀明显大于胸，腰较细 */
+  if(whr >= 1.05 && hwDiff >= 8) return sizePrefix + "梨形";
+  /* 苹果形：腰围接近或超过胸/臀，中心肥胖倾向 */
+  if(w >= b * 0.92 && w >= h * 0.92) return sizePrefix + "苹果形";
+  /* 沙漏形：胸臀接近，腰明显更细 */
+  if(diffBH <= 6 && w < b * 0.78 && w < h * 0.78) return sizePrefix + "沙漏形";
+  /* 倒三角：肩/胸明显大于臀 */
+  if(s > h + 6 && b > h + 4) return sizePrefix + "倒三角";
+  /* 直筒/矩形：三围接近 */
+  if(diffBH <= 8 && hwDiff <= 8 && Math.abs(b - w) <= 10) return sizePrefix + "直筒形";
+  /* 默认 */
+  return sizePrefix + "梨形";
+}
+function loadMetrics(){
+  var m = {};
+  try { var s = localStorage.getItem("wardrobe_metrics"); if(s){ var p = JSON.parse(s); if(p && typeof p==="object") m = p; } } catch(e){}
+  METRIC_KEYS.forEach(function(k){ var v = m[k]; if(typeof v!=="number" || isNaN(v)) m[k] = METRIC_DEFAULTS[k]; });
+  return m;
+}
+function saveMetrics(m){
+  try { localStorage.setItem("wardrobe_metrics", JSON.stringify(m)); } catch(e){}
+}
+function bindMetricInputs(root){
+  $$(".metric input", root).forEach(function(inp){
+    if(inp._bound) return;
+    inp._bound = true;
+    inp.addEventListener("input", function(){
+      var m = loadMetrics();
+      var key = inp.getAttribute("data-k");
+      var val = parseFloat(inp.value);
+      m[key] = isNaN(val) ? 0 : val;
+      saveMetrics(m);
+      /* 实时刷新身形标签：只更新 badge 文本，不重建 DOM（避免输入框失焦） */
+      var badge = document.querySelector(".body-badge");
+      if(badge) badge.textContent = detectBodyType(m);
+    });
+  });
+}
+
+/* ================= 天气 & 智能搭配推荐 ================= */
+/* Open-Meteo 免费天气 API（无需 Key，深圳 22.54,113.94） */
+var WEATHER_CACHE = null;
+function fetchWeather(){
+  return fetch("https://api.open-meteo.com/v1/forecast?latitude=22.54&longitude=113.94&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FShanghai&forecast_days=2")
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var d = data.daily;
+      var w = { max: Math.round(d.temperature_2m_max[1]), min: Math.round(d.temperature_2m_min[1]), code: d.weather_code[1] };
+      WEATHER_CACHE = w; return w;
+    })
+    .catch(function(){ return null; });
+}
+/* WMO weather code → 中文描述（无emoji） */
+function parseWeather(code){
+  var map = {
+    0:{t:"晴"},1:{t:"多云"},2:{t:"多云"},3:{t:"阴"},
+    45:{t:"雾"},48:{t:"雾凇"},
+    51:{t:"毛毛雨"},53:{t:"小雨"},55:{t:"中雨"},
+    61:{t:"小雨"},63:{t:"中雨"},65:{t:"大雨"},
+    71:{t:"小雪"},73:{t:"中雪"},75:{t:"大雪"},
+    80:{t:"阵雨"},81:{t:"强阵雨"},82:{t:"暴雨"},
+    95:{t:"雷暴"},96:{t:"雷暴伴冰雹"},99:{t:"雷暴伴大冰雹"}
+  };
+  return map[code] || {t:"多云"};
+}
+/* 温度体感 */
+function getTempFeel(max, min){
+  var avg = (max + min) / 2;
+  if(avg < 10) return "寒冷"; if(avg < 18) return "凉爽"; if(avg < 26) return "舒适"; if(avg < 32) return "炎热"; return "酷热";
+}
+/* 根据天气生成推荐搭配：纯「厚度偏好 + 配色和谐」，不限制分类（新分类自动进入） */
+function generateOutfit(weather){
+  var isRain = [51,53,55,61,63,65,80,81,82,95,96,99].indexOf(weather.code) >= 0;
+  /* 按最高温细分级（避免30度还推卫衣） */
+  var maxT = weather.max;
+  var tier = maxT >= 33 ? "酷热" : maxT >= 28 ? "炎热" : maxT >= 24 ? "温暖" : maxT >= 18 ? "舒适" : maxT >= 10 ? "凉爽" : "寒冷";
+  /* 从给定池选一件：综合厚度偏好 + 配色方向 + 目标风格打分（不按分类过滤）
+     colorGoal：和谐=偏好同色系；撞色=偏好互补撞色；点缀=在中性底色上点一抹亮色 */
+  function pickFrom(pool, pref, baseColor, targetStyle, colorGoal){
+    if(!pool || !pool.length) return null;
+    var best=null, bestS=-1e9;
+    pool.forEach(function(x){
+      var sc = 0;
+      var tk = x["厚度"] || "适中";   /* 未设置厚度默认按「适中」处理 */
+      if(pref && pref.length) sc += (pref.indexOf(tk)>=0) ? 1.2 : 0;
+      var xc = x["颜色"] || "";
+      if(baseColor){
+        var ch = colorHarmony(baseColor, xc);
+        var bonus = 0;
+        var ha=rgbHue(hexToRgb(colorHex(baseColor))), hb=rgbHue(hexToRgb(colorHex(xc)));
+        if(ha>=0 && hb>=0){
+          var diff=Math.abs(ha-hb); diff=Math.min(diff,360-diff);
+          if(colorGoal==="和谐" && diff<30) bonus += 0.5;
+          if(colorGoal==="撞色" && diff>150) bonus += 0.5;
+        } else if(colorGoal==="点缀" && NEUTRAL_COLORS.indexOf(baseColor)>=0 && NEUTRAL_COLORS.indexOf(xc)<0){
+          bonus += 0.4;  /* 中性底色上点一抹亮色，避免总是全中性 */
+        }
+        sc += ch*0.9 + bonus;
+      } else if(colorGoal==="点缀" && NEUTRAL_COLORS.indexOf(xc)<0){
+        sc += 0.4;  /* 首件就鼓励来点彩色 */
+      }
+      if(targetStyle && (x["风格"]||"") === targetStyle) sc += 1.0;  /* 风格契合加分 */
+      sc += Math.random() * 0.2;       /* 换一套有变化 */
+      if(sc > bestS){ bestS = sc; best = x; }
+    });
+    return best;
+  }
+  function pickBest(key, pref, baseColor, targetStyle){
+    return pickFrom(cache[key] || [], pref, baseColor, targetStyle, colorGoal);
+  }
+  /* 目标风格：从衣橱实际拥有的风格里随机选一个（保证可达）；无则空 */
+  var availStyles = {};
+  KEYS.slice(0,5).forEach(function(k){ (cache[k]||[]).forEach(function(x){ var s=x["风格"]; if(s) availStyles[s]=1; }); });
+  var stylePool = Object.keys(availStyles);
+  var targetStyle = stylePool.length ? stylePool[Math.floor(Math.random()*stylePool.length)] : "";
+  /* 配色方向：每套随机定一个，让「换一套」出现不同配色方案而非总中性 */
+  var colorGoal = ["和谐","撞色","点缀"][Math.floor(Math.random()*3)];
+  var prefThick = THICK_PREF[tier] || [];
+  var items = [];
+  var chosenColors = [];
+  /* 连衣裙优先（一件解决上下装）；寒冷档不推 */
+  var dress = null;
+  if(tier !== "寒冷" && Math.random() < 0.45){ dress = pickBest("dresses", null, null, targetStyle); }  /* 连衣裙不受厚度限制 */
+  if(dress){
+    items.push({key:"dresses",rec:dress,slot:"连衣裙"});
+    chosenColors = chosenColors.concat(parseColors(dress["颜色"]||""));
+  } else {
+    var top = pickBest("tops", prefThick, null, targetStyle);
+    if(top){ items.push({key:"tops",rec:top,slot:"上装"}); chosenColors = chosenColors.concat(parseColors(top["颜色"]||"")); }
+    var bottom = pickBest("bottoms", prefThick, top ? top["颜色"] : null, targetStyle);
+    if(bottom){ items.push({key:"bottoms",rec:bottom,slot:"下装"}); chosenColors = chosenColors.concat(parseColors(bottom["颜色"]||"")); }
+  }
+  /* 外套：凉爽/寒冷才推；短袖夹克例外，温暖/舒适也可作为薄外套 */
+  var outerPool = null;
+  if(tier === "凉爽" || tier === "寒冷"){
+    outerPool = cache.outerwear;
+  } else if(tier === "温暖" || tier === "舒适"){
+    outerPool = (cache.outerwear||[]).filter(function(x){ return x["分类"] === "短袖夹克"; });
+  }
+  if(outerPool && outerPool.length > 0 && ((tier === "凉爽" || tier === "寒冷") || Math.random() < 0.5)){
+    var outer = pickFrom(outerPool, prefThick, chosenColors[0] || null, targetStyle, colorGoal);
+    if(outer){ items.push({key:"outerwear",rec:outer,slot:"外套"}); chosenColors = chosenColors.concat(parseColors(outer["颜色"]||"")); }
+  }
+  /* 鞋子：同样按厚度偏好 + 配色（凉鞋=超薄、靴子=偏厚，自然区分季节） */
+  var shoe = pickBest("shoes", prefThick, items.length ? items[items.length-1].rec["颜色"] : null, targetStyle);
+  if(shoe){ items.push({key:"shoes",rec:shoe,slot:"鞋子"}); }
+  return { items: items, feel: tier, isRain: isRain, weather: weather, scheme: colorScheme(chosenColors), style: targetStyle, colors: chosenColors, colorGoal: colorGoal };
+}
+/* 刷新明日穿搭推荐面板（获取天气 → 生成搭配 → 渲染到 DOM） */
+function refreshOutfitRec(){
+  var container = document.getElementById("outfit-rec");
+  if(!container) return;
+  function render(outfit, source){
+    var w = outfit.weather;
+    var wInfo = parseWeather(w.code);
+    var thumbsHtml = outfit.items.map(function(it){
+      var name = esc(it.rec["名称"] || it.rec["分类"] || it.slot);
+      var src = imgSrcOf(it.rec, "图片");
+      var cols = parseColors(it.rec["颜色"]);
+      var sw = cols.length ? '<span class="rec-dots">'+cols.map(function(c){ return '<span class="rec-dot" style="background:'+swatchOf(c)+'" title="'+esc(colorLabel(c))+'"></span>'; }).join("")+'</span>' : '';
+      var img = src
+        ? '<img src="'+esc(src)+'" alt="'+name+'" loading="lazy">'
+        : '<span class="ph">'+ICONS.hanger+'</span>';
+      return '<div class="rec-thumb"><div class="rec-thumb-img">'+img+'</div><span class="rec-thumb-label">'+sw+name+'</span></div>';
+    }).join("");
+    container.innerHTML =
+      '<div class="rec-hd">' +
+        '<span class="rec-title">推荐搭配</span>' +
+        '<span class="rec-weather">'+
+          '<span class="w-temp">'+w.max+'°/'+w.min+'°</span>'+
+          '<span>'+wInfo.t+'</span>'+
+          (outfit.isRain ? ' · 有雨' : '') +
+        '</span>' +
+      '</div>' +
+      '<div class="rec-body">' +
+        '<div class="rec-thumbs">'+thumbsHtml+'</div>' +
+        '<div class="rec-scheme">'+
+          (outfit.style ? '<span class="rec-style">今日风格 · <b>'+esc(outfit.style)+'</b></span>' : '') +
+          '<span class="rec-scheme-t">配色方案 · <b>'+esc(outfit.scheme||"自由搭配")+'</b></span>' +
+        '</div>' +
+        (outfit.colors && outfit.colors.length ? '<div class="rec-swatches">'+outfit.colors.filter(Boolean).map(function(c){ return '<span class="rec-sw" style="background:'+colorCssOf(c)+'" title="'+esc(colorLabel(c))+'"></span>'; }).join("")+'</div>' : '') +
+        (SCHEME_TIPS[outfit.scheme] ? '<div class="rec-scheme-tip">'+esc(SCHEME_TIPS[outfit.scheme])+'</div>' : '') +
+      '</div>';
+  }
+  function tryGenerate(weather){
+    try {
+      var outfit = generateOutfit(weather);
+      if(outfit.items.length === 0){
+        container.innerHTML = '<div class="rec-placeholder">衣橱中暂无足够衣物生成搭配，请先添加衣物</div>';
+        return;
+      }
+      render(outfit, "自动天气");
+    } catch(e) {
+      container.innerHTML = '<div class="rec-placeholder">搭配生成出错，请刷新重试</div>';
+    }
+  }
+  /* 优先使用缓存天气 */
+  if(WEATHER_CACHE){
+    tryGenerate(WEATHER_CACHE);
+    return;
+  }
+  /* 尝试获取天气 */
+  fetchWeather().then(function(w){
+    if(w){ tryGenerate(w); }
+    else {
+      /* 降级：使用默认舒适天气 */
+      tryGenerate({max:24,min:18,code:1});
+    }
+  }).catch(function(){
+    tryGenerate({max:24,min:18,code:1});
+  });
+}
+
+/* ================= 渲染：总览 ================= */
+function renderOverview(){
+  var v = $("#view-overview");
+  if(!sdkOk){ v.innerHTML = stateBox("当前未连接资料库"); return; }
+  var n = { tops:cache.tops.length, bottoms:cache.bottoms.length, outerwear:cache.outerwear.length, dresses:cache.dresses.length, shoes:cache.shoes.length };
+  var total = n.tops + n.bottoms + n.outerwear + n.dresses + n.shoes;
+
+  /* 分类分布（合一堆积图：类型名在条形左侧，不单独标题行） */
+  var distRows = [];
+  KEYS.slice(0,5).forEach(function(k){
+    var preset = CLOTH_CATS[k] || [];
+    var usedCats = [];
+    cache[k].forEach(function(r){ var c=r["分类"]; if(c && usedCats.indexOf(c)<0) usedCats.push(c); });
+    var cats = usedCats.length ? usedCats : preset;
+    var counts = {};
+    cats.forEach(function(c){ counts[c] = 0; });
+    cache[k].forEach(function(r){ var c = r["分类"]; if(c && counts[c]!=null) counts[c]++; });
+    /* 按数量降序排列 */
+    var sortedCats = cats.filter(function(c){ return counts[c]>0; }).sort(function(a,b){ return counts[b] - counts[a]; });
+    if(!sortedCats.length) return;
+    var typeTotal = cache[k].length;
+    /* 堆积条形段：整条连续渐变，色标锚定段右边界；方向=水平(90deg)，与横向条形一致 */
+    var segsHtml = "";
+    var gradStops = [];
+    var cum = 0;
+    sortedCats.forEach(function(c, idx){
+      var rawPct = counts[c]/typeTotal*100;
+      var pct = Math.round(rawPct);
+      if(pct < 1 && counts[c] > 0) pct = 1;
+      cum += pct;
+      /* 颜色按该段在整条条形的累计位置插值 → 渐变严格跟随条形方向（水平） */
+      var t = cum / 100;
+      var col = lerpColor(GRAD_START, GRAD_END, t);
+      gradStops.push(col + " " + cum + "%");
+      var isSmall = pct < 10;
+      var lblColor = getLabelColor(col);   /* 依该段实际亮度决定深/浅文字，保证对比 */
+      var labelHtml = '<span class="seg-label" style="color:'+lblColor+'">'+esc(c)+'<span class="seg-pct">'+counts[c]+'件 '+pct+'%</span></span>';
+      segsHtml += '<span class="bar-seg" style="width:'+pct+'%" data-small="'+(isSmall?1:0)+'" title="'+esc(c)+'：'+counts[c]+'件（'+pct+'%）">'+labelHtml+'</span>';
+    });
+    /* 主渐变：水平(90deg)，从奶油米白连续过渡到近黑深棕 */
+    var grad = "linear-gradient(90deg, " + GRAD_START + " 0%, " + gradStops.join(", ") + ")";
+    distRows.push('<div class="dist-row"><span class="dist-row-label">'+DB[k].name+'</span><div class="stacked-bar"><div class="bar-track" style="background:'+grad+'">'+segsHtml+'</div></div><span class="dist-row-count">'+typeTotal+'件</span></div>');
+  });
+
+  var m = loadMetrics();
+  var bodyType = detectBodyType(m);
+  /* 搭配推荐面板初始占位（异步获取天气后填充） */
+  var outfitRecHtml = '<div id="outfit-rec" class="outfit-rec-loading">' +
+    '<div class="rec-hd"><span class="rec-title">明日穿搭</span><span class="rec-loading">获取天气中…</span></div>' +
+    '<div class="rec-body"><div class="rec-placeholder">正在根据明日天气为您生成搭配方案</div></div>' +
+    '</div>';
+  /* 首页快捷操作（2×3）：添加上衣/下装/外套/连衣裙/鞋子 + 换一套 */
+  var quickGridHtml =
+    '<div class="quick-grid">' +
+      '<button type="button" class="quick-btn" data-act="add" data-key="tops">'+ICONS.tops+'<span>上衣</span></button>' +
+      '<button type="button" class="quick-btn" data-act="add" data-key="bottoms">'+ICONS.bottoms+'<span>下装</span></button>' +
+      '<button type="button" class="quick-btn" data-act="add" data-key="outerwear">'+ICONS.outerwear+'<span>外套</span></button>' +
+      '<button type="button" class="quick-btn" data-act="add" data-key="dresses">'+ICONS.dresses+'<span>连衣裙</span></button>' +
+      '<button type="button" class="quick-btn" data-act="add" data-key="shoes">'+ICONS.shoes+'<span>鞋子</span></button>' +
+      '<button type="button" class="quick-btn" data-act="refresh-outfit">'+ICONS.retry+'<span>换一套</span></button>' +
+    '</div>';
+  var statsContent =
+    '<div class="stats">' +
+      /* 左：明日穿搭（跨整高），顶部为 2×3 快捷操作 */
+      '<div class="stat stat-outfit" id="stat-outfit">' +
+        quickGridHtml +
+        '<div class="body-title">明日穿搭</div>' + outfitRecHtml +
+      '</div>' +
+      /* 右：指标区（身高体重 | 肩胸腰臀 并排），下方接分类占比 */
+      '<div class="stat-side">' +
+        '<div class="metric-row">' +
+          /* 身高体重 */
+          '<div class="stat">' +
+            '<div class="body-title">身高体重 <span class="body-badge">'+esc(bodyType)+'</span></div>' +
+            '<div class="metric-grid">' +
+              '<div class="metric"><label>身高</label><div class="inp"><input type="number" inputmode="decimal" data-k="h" value="'+m.h+'"><span class="u">cm</span></div></div>' +
+              '<div class="metric"><label>体重</label><div class="inp"><input type="number" inputmode="decimal" data-k="w" value="'+m.w+'"><span class="u">kg</span></div></div>' +
+            '</div>' +
+          '</div>' +
+          /* 肩胸腰臀 */
+          '<div class="stat">' +
+            '<div class="body-title">肩胸腰臀</div>' +
+            '<div class="metric-grid">' +
+              '<div class="metric"><label>肩</label><div class="inp"><input type="number" inputmode="decimal" data-k="shoulder" value="'+m.shoulder+'"><span class="u">cm</span></div></div>' +
+              '<div class="metric"><label>胸</label><div class="inp"><input type="number" inputmode="decimal" data-k="bust" value="'+m.bust+'"><span class="u">cm</span></div></div>' +
+              '<div class="metric"><label>腰</label><div class="inp"><input type="number" inputmode="decimal" data-k="waist" value="'+m.waist+'"><span class="u">cm</span></div></div>' +
+              '<div class="metric"><label>臀</label><div class="inp"><input type="number" inputmode="decimal" data-k="hip" value="'+m.hip+'"><span class="u">cm</span></div></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        /* 分类占比 */
+        (distRows.length > 0 ?
+          '<div class="dist-list"><div class="dist-card"><div class="dist-head">分类占比</div>'+distRows.join("")+'</div></div>'
+          : '') +
+      '</div>' +
+    '</div>';
+
+  /* 数据概览直接展示（不折叠） */
+  v.innerHTML =
+    '<div class="pg-title">我的衣橱</div>' +
+    statsContent;
+  bindItemEvents(v);
+  bindMetricInputs(v);
+  /* 首页「换一套」按钮（2×3 快捷网格内）单独绑定 */
+  $$("[data-act=refresh-outfit]", v).forEach(function(b){
+    b.addEventListener("click", function(){ refreshOutfitRec(); });
+  });
+  /* 异步加载明日穿搭推荐 */
+  setTimeout(function(){ refreshOutfitRec(); }, 100);
+}
+
+/* ================= 渲染：衣物列表 ================= */
+function itemCard(key, r){
+  var src = imgSrcOf(r, "图片");
+  var cat = r["分类"] || "";
+  var thick = r["厚度"] || "";
+  var brand = r["品牌"] || "";
+  var color = r["颜色"] || "";
+  var colorList = parseColors(color);
+  var style = r["风格"] || "";
+  var note = r["备注"] || "";
+  var ph = src ? '<img src="'+esc(src)+'" alt="" loading="lazy">' : '<span class="ph">'+ICONS.hanger+'</span>';
+  var cornerDots = colorList.length ? '<span class="cdots">'+colorList.map(function(c){ return '<span style="width:12px;height:12px;border-radius:50%;background:'+swatchOf(c)+';border:1.5px solid #fff;box-shadow:0 1px 2px rgba(0,0,0,.25)"></span>'; }).join("")+'</span>' : "";
+  var metaDots = colorList.length ? '<div class="cl">'+colorList.map(function(c){ return '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+swatchOf(c)+';margin-right:4px;vertical-align:-1px"></span>'; }).join("")+esc(colorList.map(colorLabel).join(" / "))+'</div>' : "";
+  return (
+    '<div class="item" data-key="'+key+'" data-id="'+esc(r._id)+'">' +
+      '<div class="thumb">'+ph+
+        (cat?'<span class="cat">'+esc(cat)+'</span>':"")+
+        cornerDots+
+        (thick?'<span class="thick">'+esc(thick)+'</span>':"")+
+        '<div class="tools">'+
+          '<button class="edit" data-act="edit" title="编辑">'+ICONS.edit+'</button>'+
+          '<button class="del" data-act="del" title="删除">'+ICONS.trash+'</button>'+
+        '</div>'+
+      '</div>' +
+      '<div class="meta"><div class="nm">'+esc(r["名称"]||"未命名")+'</div>'+(brand?'<div class="br">'+esc(brand)+'</div>':"")+metaDots+(style?'<div class="st">'+esc(style)+'</div>':"")+(note?'<div class="nt">'+esc(note)+'</div>':"")+'</div>' +
+    '</div>'
+  );
+}
+
+function renderClothTab(key){
+  var v = $("#view-"+key);
+  if(!sdkOk){ v.innerHTML = stateBox("当前未连接资料库"); return; }
+  var st = tableState[key];
+  if(st==="loading"){
+    v.innerHTML = '<div class="pg-title">'+DB[key].name+'</div><div class="skel-grid"><div class="sk"></div><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>';
+    return;
+  }
+  if(st==="error"){
+    v.innerHTML = '<div class="pg-title">'+DB[key].name+'</div>'+stateBox("数据读取失败，请检查网络后重试", key);
+    return;
+  }
+  var rows = cache[key] || [];
+  var preset = CLOTH_CATS[key] || [];
+  var usedCats = [];
+  rows.forEach(function(r){ var c=r["分类"]; if(c && usedCats.indexOf(c)<0) usedCats.push(c); });
+  var allCats = preset.concat(usedCats.filter(function(c){ return preset.indexOf(c)<0; }));
+  var sel = selectedCat[key] || "";
+
+  /* 分类筛选 chips */
+  var chips = '<button class="'+(sel===""?"on":"")+'" data-cat="">全部</button>';
+  allCats.forEach(function(c){
+    chips += '<button class="'+(sel===c?"on":"")+'" data-cat="'+esc(c)+'">'+esc(c)+'</button>';
+  });
+
+  var filtered = sel ? rows.filter(function(r){ return r["分类"]===sel; }) : rows;
+
+  /* 按分组构建折叠面板（默认全部折叠；选中具体分类时展开该唯一面板便于查看） */
+  var panelsHtml = "";
+  var defaultOpen = !!sel;
+  if(filtered.length === 0){
+    panelsHtml = accordionPanel(key+"-empty", "暂无"+DB[key].name, ICONS.hanger,
+      '<div class="empty">'+ICONS.hanger.replace('viewBox','width="40" height="40" viewBox')+'<p>还没有'+DB[key].name+'，请到首页点击「添加」新增第一件</p></div>', "", false);
+  } else {
+    /* 按分类分组，按数量降序排列 */
+    var groups = {};
+    filtered.forEach(function(r){ var c = r["分类"]||"未分类"; if(!groups[c]) groups[c]=[]; groups[c].push(r); });
+    var groupList = Object.keys(groups).map(function(c){ return {cat:c, items:groups[c], count:groups[c].length}; });
+    /* 按数量从大到小排序 */
+    groupList.sort(function(a,b){ return b.count - a.count; });
+
+    groupList.forEach(function(g){
+      var gridItems = g.items.map(function(r){ return itemCard(key, r); }).join("");
+      panelsHtml += accordionPanel(key+"-"+g.cat, g.cat, null, '<div class="grid">'+gridItems+'</div>', g.count+" 件", defaultOpen);
+    });
+  }
+
+  v.innerHTML =
+    '<div class="pg-title">'+DB[key].name+'</div>' +
+    '<div class="chips" style="margin-bottom:14px">'+chips+'</div>' +
+    panelsHtml;
+  bindAccordion(v);
+  bindItemEvents(v);
+  $$("#view-"+key+" .chips button").forEach(function(b){
+    b.addEventListener("click", function(){
+      selectedCat[key] = b.getAttribute("data-cat") || "";
+      renderClothTab(key);
+    });
+  });
+}
+
+function renderTable(key){
+  if(key==="overview") renderOverview();
+  else renderClothTab(key);
+}
+
+function stateBox(msg, retryKey){
+  var retry = retryKey ? '<button class="retry" data-retry="'+retryKey+'">'+ICONS.retry+'<span>重试</span></button>' : "";
+  return '<div class="state-box"><div class="ic">'+ICONS.hanger+'</div><p>'+esc(msg)+'</p>'+retry+'</div>';
+}
+
+/* ================= 事件绑定 ================= */
+function bindItemEvents(root){
+  $$("[data-retry]", root).forEach(function(b){
+    b.addEventListener("click", function(){ fetchTable(b.getAttribute("data-retry")); });
+  });
+  $$("[data-act=del]", root).forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      var card = b.closest("[data-key]");
+      confirmDel(card.getAttribute("data-key"), card.getAttribute("data-id"));
+    });
+  });
+  $$("[data-act=edit]", root).forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      var card = b.closest("[data-key]");
+      var key = card.getAttribute("data-key");
+      var row = (cache[key]||[]).filter(function(r){ return r._id===card.getAttribute("data-id"); })[0];
+      if(row) openEdit(key, row);
+    });
+  });
+  $$("[data-act=add]", root).forEach(function(b){
+    b.addEventListener("click", function(){ openAdd(b.getAttribute("data-key")); });
+  });
+  $$(".item .thumb", root).forEach(function(t){
+    t.addEventListener("click", function(){
+      var card = t.closest("[data-key]");
+      var key = card.getAttribute("data-key");
+      var row = (cache[key]||[]).filter(function(r){ return r._id===card.getAttribute("data-id"); })[0];
+      if(row) openDetail(key, row);
+    });
+  });
+}
+
+/* ================= 详情弹窗（看图） ================= */
+function openDetail(key, row){
+  var src = imgSrcOf(row, "图片");
+  var cat = row["分类"] || "";
+  var thick = row["厚度"] || "";
+  var brand = row["品牌"] || "";
+  var color = row["颜色"] || "";
+  var colorList = parseColors(color);
+  var colorDots = colorList.length ? '<span class="cdots">'+colorList.map(function(c){ return '<span class="cdot" style="background:'+swatchOf(c)+'"></span>'; }).join("")+'</span>' : "";
+  var style = row["风格"] || "";
+  var note = row["备注"] || "";
+  var title = row["名称"] || "未命名";
+  var html =
+    '<h2>'+esc(title)+'<button class="x" data-act="close">'+ICONS.close+'</button></h2>' +
+    '<div style="border-radius:14px;overflow:hidden;background:#F0ECE4;text-align:center;margin-bottom:14px">' +
+      (src ? '<img src="'+esc(src)+'" style="width:100%;max-height:52vh;object-fit:contain" alt="">' : '<div style="padding:60px 0;color:#C9C2B4">'+ICONS.hanger.replace('viewBox','width="52" height="52" viewBox')+'</div>') +
+    '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">' +
+      (cat?'<span class="chip-tag">'+esc(cat)+'</span>':"") +
+      (colorList.length?'<span class="chip-tag color-tag">'+colorDots+'颜色 · '+esc(colorList.map(colorLabel).join(" / "))+'</span>':"") +
+      (thick?'<span class="chip-tag thick-tag">厚度 · '+esc(thick)+'</span>':"") +
+      (style?'<span class="chip-tag style-tag">风格 · '+esc(style)+'</span>':"") +
+      (brand?'<span class="chip-tag brand-tag">品牌 · '+esc(brand)+'</span>':"") +
+    '</div>' +
+    (note?'<div style="font-size:13px;color:var(--ink-2)">'+esc(note)+'</div>':"")+
+    '<div style="margin-top:16px;text-align:right"><button type="button" class="save" id="d_edit">编辑</button></div>';
+  showModal(html);
+  var eb = $("#d_edit");
+  if(eb){ eb.addEventListener("click", function(){ openEdit(key, row); }); }
+}
+
+/* ================= 添加弹窗 ================= */
+function openAdd(key){
+  var preset = CLOTH_CATS[key] || [];
+  var usedCats = [];
+  (cache[key]||[]).forEach(function(r){ var c=r["分类"]; if(c && usedCats.indexOf(c)<0) usedCats.push(c); });
+  var cats = preset.concat(usedCats.filter(function(c){ return preset.indexOf(c)<0; }));
+  var availColorsAdd = availableColors();
+  var chips = cats.map(function(c,i){ return '<button type="button" data-cat="'+c+'" class="'+(i===0?"on":"")+'">'+c+'</button>'; }).join("");
+  var html =
+    '<h2>添加'+DB[key].name+'<button class="x" data-act="close">'+ICONS.close+'</button></h2>' +
+    '<form id="addForm" autocomplete="off">' +
+      '<div class="fform-part">' +
+        '<div class="fld"><label>名称 <span class="req">*</span></label><input type="text" id="f_name" placeholder="如：米白羊毛大衣" required></div>' +
+      '</div>' +
+      '<div class="fform-part">' +
+        '<div class="frow">' +
+          '<div class="fcol">' +
+            '<div class="fld"><label>图片</label><div class="imgpick" id="f_img">' +
+              '<div class="prev" id="f_prev">'+ICONS.hanger+'</div>' +
+              '<div class="btns">' +
+                '<button type="button" class="up" id="f_up">'+ICONS.camera+'<span>上传照片</span></button>' +
+                '<div class="urlrow"><input type="text" id="f_url" placeholder="或粘贴图片链接"><button type="button" id="f_urlok">用这张</button></div>' +
+              '</div>' +
+            '</div></div>' +
+            '<div class="fld"><label>分类</label><div class="chips" id="f_cats">'+chips+'</div>' +
+            '<input type="text" id="f_cat_custom" placeholder="或输入自定义分类，如：背心 / 马甲" style="margin-top:8px;width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:11px 13px;font-size:16px">' +
+            '</div>' +
+          '</div>' +
+          '<div class="fcol">' +
+            '<div class="fld"><label>颜色</label><div class="ctype-sel" id="f_color">'+colorSelectorHtml(availColorsAdd, [])+'</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="fform-part">' +
+        '<div class="frow">' +
+          '<div class="fcol">' +
+            '<div class="fld"><label>品牌</label><input type="text" id="f_brand" placeholder="如：优衣库 / ZARA / 无印良品"></div>' +
+            '<div class="fld"><label>厚度</label><div class="chips" id="f_thick">'+THICK_OPTS.map(function(t,i){ return '<button type="button" data-thick="'+t+'" class="'+(t==="适中"?"on":"")+'">'+t+'</button>'; }).join("")+'</div></div>' +
+          '</div>' +
+          '<div class="fcol">' +
+            '<div class="fld"><label>风格</label><div class="chips" id="f_style">'+STYLES.map(function(s){ return '<button type="button" data-style="'+s+'">'+s+'</button>'; }).join("")+'</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="fform-part">' +
+        '<div class="fld"><label>备注</label><textarea id="f_note" placeholder="穿着频率、搭配心得…"></textarea></div>' +
+      '</div>' +
+      '<div class="actions"><button type="button" class="cancel" data-act="close">取消</button><button type="submit" class="save" id="f_save">保存</button></div>' +
+    '</form>' +
+    '<input type="file" id="f_file" accept="image/*" style="display:none">';
+  showModal(html);
+
+  var curImg = "";
+  var catsEl = $("#f_cats");
+  var selCat = cats[0];
+  $$("#f_cats button").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#f_cats button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      selCat = b.getAttribute("data-cat");
+    });
+  });
+  var customInput = $("#f_cat_custom");
+  if(customInput){
+    customInput.addEventListener("input", function(){
+      if(this.value.trim()){
+        $$("#f_cats button").forEach(function(x){ x.classList.remove("on"); });
+      }
+    });
+  }
+  /* 厚度选择 */
+  var selThick = "适中";
+  $$("#f_thick button").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#f_thick button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      selThick = b.getAttribute("data-thick");
+    });
+  });
+  /* 颜色选择：下拉按钮选择器（纯色/拼色/渐变/花色 四类互斥） */
+  var selColors = [];
+  function refreshColorOn(){
+    $$("#f_color .cchip").forEach(function(x){ x.classList.toggle("on", selColors.indexOf(x.getAttribute("data-color"))>=0); });
+  }
+  function ensureChip(token){
+    var found=null;
+    $$("#f_color .cchip").forEach(function(x){ if(x.getAttribute("data-color")===token) found=x; });
+    if(found) return found;
+    var t = colorTypeOf(token);
+    var grp = $("#f_color [data-group=\""+t+"\"]");
+    if(!grp) return null;
+    /* 该类型此前为空（无圆点、无分隔标签）时，补一个「已存颜色」分隔，保持与初始布局一致 */
+    var sec = grp.closest(".ctype-body")||grp.closest(".csub-body");
+    if(sec && !sec.querySelector(".cdivider")) sec.insertBefore(el('<div class="cdivider"><span>已存颜色</span></div>'), grp);
+    var b = el('<button type="button" data-color="'+esc(token)+'" data-ctype="'+esc(t)+'" class="cchip" style="--sw:'+colorCssOf(token)+'" title="'+esc(colorLabel(token))+'"><span class="cdot"></span>'+esc(colorLabel(token))+'</button>');
+    grp.appendChild(b);
+    var em=grp.querySelector(".cempty"); if(em) em.remove();
+    b.addEventListener("click", function(){ addColorToken(token); });
+    return b;
+  }
+  /* 纯色/拼色/渐变/花色 四类互斥：选任一类即清空其它所有已选；再次点击已选可取消 */
+  function addColorToken(token){
+    if(!token) return;
+    var already = selColors.indexOf(token)>=0;
+    selColors = already ? [] : [token];
+    var chip = ensureChip(token);
+    if(chip){ var sec = chip.closest(".csub-sec")||chip.closest(".ctype-sec"); if(sec) sec.classList.add("open"); }
+    refreshColorOn();
+  }
+  function setColor(name){ if(!name) return; addColorToken(makeSolid(name)); }
+  wireColorSelector(addColorToken);
+  /* 风格选择（单选，可再次点击取消 -> 未标注） */
+  var selStyle = "";
+  $$("#f_style button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var s = b.getAttribute("data-style");
+      if(selStyle === s){ selStyle = ""; b.classList.remove("on"); }
+      else { $$("#f_style button").forEach(function(x){ x.classList.remove("on"); }); b.classList.add("on"); selStyle = s; }
+    });
+  });
+  function detectColorFromImg(){
+    if(!curImg) return;
+    detectDominantColor(curImg, function(name){ if(name) setColor(name); });
+  }
+
+  var fileInput = $("#f_file");
+  $("#f_up").addEventListener("click", function(){ fileInput.click(); });
+  fileInput.addEventListener("change", function(){
+    var f = fileInput.files && fileInput.files[0];
+    if(!f) return;
+    compressImage(f, function(dataUrl){
+      curImg = dataUrl;
+      $("#f_prev").innerHTML = '<img src="'+dataUrl+'" alt="">';
+      detectColorFromImg();
+    });
+  });
+  $("#f_urlok").addEventListener("click", function(){
+    var u = $("#f_url").value.trim();
+    if(!u){ toast("请先粘贴图片链接"); return; }
+    curImg = u;
+    $("#f_prev").innerHTML = '<img src="'+esc(u)+'" alt="">';
+    detectColorFromImg();
+  });
+
+  $("#addForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("#f_name").value.trim();
+    if(!name){ toast("请填写衣物名称"); return; }
+    var catVal = ($("#f_cat_custom").value || "").trim() || selCat;
+    var props = {
+      "名称": { text: name },
+      "分类": { text: catVal }
+    };
+    if(selThick) props["厚度"] = { text: selThick };
+    var brand = $("#f_brand").value.trim();
+    if(brand) props["品牌"] = { text: brand };
+    var colorText = serializeColors(selColors);
+    if(colorText) props["颜色"] = { text: colorText };
+    if(selStyle) props["风格"] = { text: selStyle };
+    if(curImg) props["图片"] = { image: { images: [{ title: name, imageUrl: curImg }] } };
+    var note = $("#f_note").value.trim();
+    if(note) props["备注"] = { text: note };
+    doAdd(key, props);
+  });
+}
+
+/* ================= 编辑弹窗 ================= */
+function openEdit(key, row){
+  var preset = CLOTH_CATS[key] || [];
+  var usedCats = [];
+  (cache[key]||[]).forEach(function(r){ var c=r["分类"]; if(c && usedCats.indexOf(c)<0) usedCats.push(c); });
+  var cats = preset.concat(usedCats.filter(function(c){ return preset.indexOf(c)<0; }));
+  if(row["分类"] && cats.indexOf(row["分类"])<0) cats = [row["分类"]].concat(cats);
+  var chips = cats.map(function(c){
+    return '<button type="button" data-cat="'+esc(c)+'" class="'+(c===row["分类"]?"on":"")+'">'+esc(c)+'</button>';
+  }).join("");
+  var initThick = row["厚度"] || "适中";
+  var thickChips = THICK_OPTS.map(function(t){
+    return '<button type="button" data-thick="'+t+'" class="'+(t===initThick?"on":"")+'">'+t+'</button>';
+  }).join("");
+  var initColor = row["颜色"] || "";
+  var initColors = parseColors(initColor);
+  var availColorsEdit = availableColors();
+  initColors.forEach(function(c){ if(availColorsEdit.indexOf(c)<0) availColorsEdit = [c].concat(availColorsEdit); });
+  var colorChips = colorSelectorHtml(availColorsEdit, initColors);
+  var initStyle = row["风格"] || "";
+  var styleChips = STYLES.map(function(s){
+    return '<button type="button" data-style="'+s+'" class="'+(s===initStyle?"on":"")+'">'+s+'</button>';
+  }).join("");
+  var src0 = imgSrcOf(row, "图片");
+  var html =
+    '<h2>编辑'+DB[key].name+'<button class="x" data-act="close">'+ICONS.close+'</button></h2>' +
+    '<form id="editForm" autocomplete="off">' +
+    '<div class="fform-part">' +
+      '<div class="fld"><label>名称 <span class="req">*</span></label><input type="text" id="f_name" placeholder="如：米白羊毛大衣" value="'+esc(row["名称"]||"")+'" required></div>' +
+    '</div>' +
+    '<div class="fform-part">' +
+      '<div class="frow">' +
+        '<div class="fcol">' +
+          '<div class="fld"><label>图片</label><div class="imgpick" id="f_img">' +
+            '<div class="prev" id="f_prev">'+(src0?'<img src="'+esc(src0)+'" alt="">':ICONS.hanger)+'</div>' +
+            '<div class="btns">' +
+              '<button type="button" class="up" id="f_up">'+ICONS.camera+'<span>更换照片</span></button>' +
+              '<div class="urlrow"><input type="text" id="f_url" placeholder="或粘贴图片链接"><button type="button" id="f_urlok">用这张</button></div>' +
+            '</div>' +
+          '</div></div>' +
+          '<div class="fld"><label>分类</label><div class="chips" id="f_cats">'+chips+'</div>' +
+          '<input type="text" id="f_cat_custom" placeholder="或输入自定义分类" style="margin-top:8px;width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:11px 13px;font-size:16px">' +
+          '</div>' +
+        '</div>' +
+        '<div class="fcol">' +
+          '<div class="fld"><label>颜色</label><div class="ctype-sel" id="f_color">'+colorChips+'</div></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fform-part">' +
+      '<div class="frow">' +
+        '<div class="fcol">' +
+          '<div class="fld"><label>品牌</label><input type="text" id="f_brand" placeholder="如：优衣库 / ZARA / 无印良品" value="'+esc(row["品牌"]||"")+'"></div>' +
+          '<div class="fld"><label>厚度</label><div class="chips" id="f_thick">'+thickChips+'</div></div>' +
+        '</div>' +
+        '<div class="fcol">' +
+          '<div class="fld"><label>风格</label><div class="chips" id="f_style">'+styleChips+'</div></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fform-part">' +
+      '<div class="fld"><label>备注</label><textarea id="f_note" placeholder="穿着频率、搭配心得…">'+esc(row["备注"]||"")+'</textarea></div>' +
+    '</div>' +
+      '<div class="actions"><button type="button" class="cancel" data-act="close">取消</button><button type="submit" class="save" id="f_save">保存修改</button></div>' +
+    '</form>' +
+    '<input type="file" id="f_file" accept="image/*" style="display:none">';
+  showModal(html);
+
+  var curImg = src0;
+  var selCat = row["分类"] || cats[0];
+  var selThick = initThick;
+  $$("#f_cats button").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#f_cats button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      selCat = b.getAttribute("data-cat");
+    });
+  });
+  var customInput = $("#f_cat_custom");
+  if(customInput){
+    customInput.addEventListener("input", function(){
+      if(this.value.trim()){ $$("#f_cats button").forEach(function(x){ x.classList.remove("on"); }); }
+    });
+  }
+  $$("#f_thick button").forEach(function(b){
+    b.addEventListener("click", function(){
+      $$("#f_thick button").forEach(function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      selThick = b.getAttribute("data-thick");
+    });
+  });
+  /* 颜色选择：下拉按钮选择器（纯色/拼色/渐变/花色 四类互斥） */
+  var selColors = parseColors(initColor);
+  function refreshColorOn(){
+    $$("#f_color .cchip").forEach(function(x){ x.classList.toggle("on", selColors.indexOf(x.getAttribute("data-color"))>=0); });
+  }
+  function ensureChip(token){
+    var found=null;
+    $$("#f_color .cchip").forEach(function(x){ if(x.getAttribute("data-color")===token) found=x; });
+    if(found) return found;
+    var t = colorTypeOf(token);
+    var grp = $("#f_color [data-group=\""+t+"\"]");
+    if(!grp) return null;
+    /* 该类型此前为空（无圆点、无分隔标签）时，补一个「已存颜色」分隔，保持与初始布局一致 */
+    var sec = grp.closest(".ctype-body")||grp.closest(".csub-body");
+    if(sec && !sec.querySelector(".cdivider")) sec.insertBefore(el('<div class="cdivider"><span>已存颜色</span></div>'), grp);
+    var b = el('<button type="button" data-color="'+esc(token)+'" data-ctype="'+esc(t)+'" class="cchip" style="--sw:'+colorCssOf(token)+'" title="'+esc(colorLabel(token))+'"><span class="cdot"></span>'+esc(colorLabel(token))+'</button>');
+    grp.appendChild(b);
+    var em=grp.querySelector(".cempty"); if(em) em.remove();
+    b.addEventListener("click", function(){ addColorToken(token); });
+    return b;
+  }
+  /* 纯色/拼色/渐变/花色 四类互斥：选任一类即清空其它所有已选；再次点击已选可取消 */
+  function addColorToken(token){
+    if(!token) return;
+    var already = selColors.indexOf(token)>=0;
+    selColors = already ? [] : [token];
+    var chip = ensureChip(token);
+    if(chip){ var sec = chip.closest(".csub-sec")||chip.closest(".ctype-sec"); if(sec) sec.classList.add("open"); }
+    refreshColorOn();
+  }
+  function setColor(name){ if(!name) return; addColorToken(makeSolid(name)); }
+  wireColorSelector(addColorToken);
+  /* 风格选择（单选，可再次点击取消 -> 未标注） */
+  var selStyle = initStyle;
+  $$("#f_style button").forEach(function(b){
+    b.addEventListener("click", function(){
+      var s = b.getAttribute("data-style");
+      if(selStyle === s){ selStyle = ""; b.classList.remove("on"); }
+      else { $$("#f_style button").forEach(function(x){ x.classList.remove("on"); }); b.classList.add("on"); selStyle = s; }
+    });
+  });
+  function detectColorFromImg(){
+    if(!curImg) return;
+    detectDominantColor(curImg, function(name){ if(name) setColor(name); });
+  }
+  var fileInput = $("#f_file");
+  $("#f_up").addEventListener("click", function(){ fileInput.click(); });
+  fileInput.addEventListener("change", function(){
+    var f = fileInput.files && fileInput.files[0];
+    if(!f) return;
+    compressImage(f, function(dataUrl){
+      curImg = dataUrl;
+      $("#f_prev").innerHTML = '<img src="'+dataUrl+'" alt="">';
+      detectColorFromImg();
+    });
+  });
+  $("#f_urlok").addEventListener("click", function(){
+    var u = $("#f_url").value.trim();
+    if(!u){ toast("请先粘贴图片链接"); return; }
+    curImg = u;
+    $("#f_prev").innerHTML = '<img src="'+esc(u)+'" alt="">';
+    detectColorFromImg();
+  });
+
+  $("#editForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("#f_name").value.trim();
+    if(!name){ toast("请填写衣物名称"); return; }
+    var catVal = ($("#f_cat_custom").value || "").trim() || selCat;
+    var props = {
+      "名称": { text: name },
+      "分类": { text: catVal }
+    };
+    props["厚度"] = { text: selThick };
+    var brand = $("#f_brand").value.trim();
+    props["品牌"] = { text: brand };
+    props["颜色"] = { text: serializeColors(selColors) };
+    props["风格"] = { text: selStyle };
+    if(curImg){ props["图片"] = { image: { images: [{ title: name, imageUrl: curImg }] } }; }
+    var note = $("#f_note").value.trim();
+    if(note) props["备注"] = { text: note };
+    doEdit(key, row._id, props);
+  });
+}
+
+/* ================= 写操作 ================= */
+function doAdd(key, props){
+  if(!sdkOk){ toast("未连接资料库，无法保存"); return; }
+  markLoading();
+  hideModal();
+  var op = addRec(key, props);
+  pendingWrite = { fn: function(){ return addRec(key, props); }, tab: key };
+  op.then(function(res){
+    pendingWrite = null;
+    markOk();
+    toast("已保存到线上衣橱");
+    return fetchTable(key);
+  }).catch(function(err){
+    markErr();
+    console.error("addRecord failed", err);
+    toast("保存失败："+errMsg(err), true);
+  });
+}
+
+function doEdit(key, id, props){
+  if(!sdkOk){ toast("未连接资料库，无法保存"); return; }
+  markLoading();
+  hideModal();
+  var op = updateRec(key, id, props);
+  pendingWrite = { fn: function(){ return updateRec(key, id, props); }, tab: key };
+  op.then(function(res){
+    pendingWrite = null;
+    markOk();
+    toast("已更新");
+    return fetchTable(key);
+  }).catch(function(err){
+    markErr();
+    console.error("updateRecord failed", err);
+    toast("保存失败："+errMsg(err), true);
+  });
+}
+
+function confirmDel(key, id){
+  var label = "";
+  var row = (cache[key]||[]).filter(function(r){ return r._id===id; })[0];
+  if(row) label = (row["名称"]||"这件衣物");
+  var html =
+    '<div class="confirm-box">' +
+      '<div class="ic">'+ICONS.trash+'</div>' +
+      '<h3>删除「'+esc(label)+'」？</h3>' +
+      '<p>删除后将从线上衣橱移除，无法恢复。</p>' +
+      '<div class="row"><button class="no" data-act="close">取消</button><button class="yes" id="cfYes">删除</button></div>' +
+    '</div>';
+  showModal(html);
+  $("#cfYes").addEventListener("click", function(){
+    if(!sdkOk){ toast("未连接资料库，无法删除"); return; }
+    hideModal();
+    markLoading();
+    var op = delRec(key, id);
+    pendingWrite = { fn: function(){ return delRec(key, id); }, tab: key };
+    op.then(function(){
+      pendingWrite = null;
+      markOk();
+      toast("已删除");
+      return fetchTable(key);
+    }).catch(function(err){
+      markErr();
+      console.error("deleteRecord failed", err);
+      toast("删除失败："+errMsg(err), true);
+    });
+  });
+}
+
+function errMsg(err){
+  try{
+    if(typeof err==="string") return err.slice(0,40);
+    if(err && err.message) return String(err.message).slice(0,40);
+  }catch(e){}
+  return "请检查网络";
+}
+
+/* ================= 弹窗通用 ================= */
+function showModal(html){
+  var m = $("#modal");
+  m.innerHTML = html;
+  $("#modalMask").classList.add("show");
+  $$("[data-act=close]", m).forEach(function(b){
+    b.addEventListener("click", hideModal);
+  });
+  $("#modalMask").addEventListener("click", function(e){
+    if(e.target === this) hideModal();
+  });
+}
+function hideModal(){
+  $("#modalMask").classList.remove("show");
+  $("#modal").innerHTML = "";
+}
+
+/* ================= 图片压缩 ================= */
+function compressImage(file, cb){
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      var maxW = 800;
+      var w = img.width, h = img.height;
+      if(w > maxW){ h = h * maxW / w; w = maxW; }
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.round(w); canvas.height = Math.round(h);
+      var ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      var out;
+      try{ out = canvas.toDataURL("image/jpeg", 0.78); }
+      catch(e){ out = ev.target.result; }
+      cb(out);
+    };
+    img.onerror = function(){ toast("图片读取失败，请换一张试试"); };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ================= 初始化 ================= */
+function init(){
+  loadCache();
+  buildNav();
+  $("#clearCache").addEventListener("click", function(){
+    try{
+      localStorage.removeItem(lsKey);
+      KEYS.forEach(function(k){ cache[k] = []; });
+      renderCurrent();
+      toast("本地缓存已清除");
+    }catch(e){}
+  });
+
+  if(sdkOk){
+    fetchAll();
+  } else {
+    $("#offlineBanner").classList.add("show");
+    setSync("err");
+    $("#syncText").textContent = "离线模式";
+    KEYS.forEach(function(k){ tableState[k] = "ready"; });
+    renderCurrent();
+  }
+}
+
+init();
+})();
+</script>
+</body>
+</html>
